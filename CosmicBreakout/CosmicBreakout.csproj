@@ -107,6 +107,18 @@
     <None Include="CosmicBreakout_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\Background.png" />
+    <Content Include="Images\Ball.png" />
+    <Content Include="Images\BlockDouble.png" />
+    <Content Include="Images\BlockSingle.png" />
+    <Content Include="Images\BlockTriple.png" />
+    <Content Include="Images\Logo.png" />
+    <Content Include="Images\Paddle.png" />
+    <Content Include="Images\PowerupMultiBall.png" />
+    <Content Include="Images\PowerupStackPaddle.png" />
+    <Content Include="Images\PowerupWidePaddle.png" />
+    <Content Include="Images\WallSide.png" />
+    <Content Include="Images\WallTop.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
