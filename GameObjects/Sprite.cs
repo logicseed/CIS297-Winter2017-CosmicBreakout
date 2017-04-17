@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Graphics.Canvas;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,9 @@ namespace GameObjects
 {
     public class Sprite
     {
+        protected CanvasBitmap spriteSheet;
+        protected Rect spriteSource;
+
         private Image image;
         private Size size;
         private Point location;
@@ -21,12 +25,12 @@ namespace GameObjects
         public Point Location { get => location; protected set => location = value; }
         public bool DestroyMe { get => destroyMe; protected set => destroyMe = value; }
 
-        public Sprite(Image image)
+        public Sprite(CanvasBitmap spriteSheet)
         {
-            this.image = image;
+            this.spriteSheet = spriteSheet;
         }
 
-        public virtual void Update(float deltaTime)
+        public virtual void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
         {
 
         }

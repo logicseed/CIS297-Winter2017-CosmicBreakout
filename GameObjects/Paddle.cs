@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Graphics.Canvas;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +10,15 @@ namespace GameObjects
 {
     public class Paddle : MoveableSprite
     {
-        public Paddle(float maximumSpeed, Image image)
-            : base(maximumSpeed, CollisionLayer.Paddle, image)
+        public Paddle(CanvasBitmap spriteSheet, float maximumSpeed)
+            : base(spriteSheet, maximumSpeed, CollisionLayer.Paddle)
         {
 
         }
 
-        public override void Update(float deltaTime)
+        public override void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
         {
-            base.Update(deltaTime);
+            base.Update(spriteBatch, deltaTime);
         }
 
         private void UpdateInput(float deltaTime)

@@ -120,6 +120,7 @@
     <Content Include="Images\PowerupMultiBall.png" />
     <Content Include="Images\PowerupStackPaddle.png" />
     <Content Include="Images\PowerupWidePaddle.png" />
+    <Content Include="Images\Sprites.png" />
     <Content Include="Images\WallSide.png" />
     <Content Include="Images\WallTop.png" />
     <Content Include="Properties\Default.rd.xml" />
@@ -152,6 +153,12 @@
     <PackageReference Include="Win2D.uwp">
       <Version>1.20.0</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameObjects\GameObjects.csproj">
+      <Project>{c834df6b-7b37-4f3e-93bd-524fd4791c4d}</Project>
+      <Name>GameObjects</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

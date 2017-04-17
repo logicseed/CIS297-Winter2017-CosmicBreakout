@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Microsoft.Graphics.Canvas;
+using Windows.UI.Xaml.Controls;
 
 namespace GameObjects
 {
@@ -12,8 +13,8 @@ namespace GameObjects
         public bool DropsPowerup { get => dropsPowerup; set => dropsPowerup = value; }
         public PowerupType DropsPowerupType { get => dropsPowerupType; set => dropsPowerupType = value; }
 
-        public Block(int collisionsRemaining, CollisionLayer collisionLayer, Image image)
-            : base(collisionLayer, image)
+        public Block(CanvasBitmap spriteSheet, int collisionsRemaining, CollisionLayer collisionLayer)
+            : base(spriteSheet, collisionLayer)
         {
             this.collisionsRemaining = collisionsRemaining;
         }

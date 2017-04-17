@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Graphics.Canvas;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,15 +14,15 @@ namespace GameObjects
 
         public float MaximumSpeed { get => maximumSpeed; set => maximumSpeed = value; }
 
-        public MoveableSprite(float maximumSpeed, CollisionLayer collisionLayer, Image image)
-            : base(collisionLayer, image)
+        public MoveableSprite(CanvasBitmap spriteSheet, float maximumSpeed, CollisionLayer collisionLayer)
+            : base(spriteSheet, collisionLayer)
         {
             this.maximumSpeed = maximumSpeed;
         }
 
-        public override void Update(float deltaTime)
+        public override void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
         {
-            base.Update(deltaTime);
+            base.Update(spriteBatch, deltaTime);
         }
 
         private void UpdateMovement(float deltaTime)
