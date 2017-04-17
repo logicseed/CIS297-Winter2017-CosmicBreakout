@@ -34,5 +34,10 @@ namespace CosmicBreakout
         {
             Frame.Navigate(typeof(GamePage));
         }
+
+        private void GamePadTest_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(GamePadTest));
+        }
     }
 }

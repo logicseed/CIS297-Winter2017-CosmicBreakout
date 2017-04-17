@@ -20,6 +20,8 @@ using GameObjects;
 using Microsoft.Graphics.Canvas.UI;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
+using Windows.System;
+using Windows.Gaming.Input;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -30,10 +32,10 @@ namespace CosmicBreakout
     /// </summary>
     public sealed partial class GamePage : Page
     {
-        private DispatcherTimer dispatcherTimer;
+        private Gamepad gamepad = null;
 
         private GameManager gameManager;
-        private DateTime lastDraw;
+        private DateTime lastDrawTime;
 
         private CanvasBitmap background;
         private CanvasBitmap spriteSheet;
@@ -41,8 +43,12 @@ namespace CosmicBreakout
         public GamePage()
         {
             this.InitializeComponent();
-            Window.Current.CoreWindow.CharacterReceived += CoreWindow_CharacterReceived;
 
+            Gamepad.GamepadAdded += Gamepad_GamepadAdded;
+            Gamepad.GamepadRemoved += Gamepad_GamepadRemoved;
+
+            Window.Current.CoreWindow.CharacterReceived += CoreWindow_CharacterReceived;
+            //this.Focus(FocusState.Programmatic);
         }
 
         private void CoreWindow_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
@@ -52,21 +58,6 @@ namespace CosmicBreakout
                 CoreApplication.Exit();
             }
         }
-
-        //private void GameCanvas_Draw(CanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
-        //{
-        //    args.DrawingSession.Units = CanvasUnits.Pixels;
-        //    var spriteBatch = args.DrawingSession.CreateSpriteBatch(CanvasSpriteSortMode.None,
-        //        CanvasImageInterpolation.NearestNeighbor, CanvasSpriteOptions.ClampToSourceRect);
-
-        //    if (lastDraw == null) lastDraw = DateTime.Now;
-        //    var previousDraw = lastDraw;
-        //    lastDraw = DateTime.Now;
-        //    var deltaTime = (lastDraw - previousDraw).TotalSeconds;
-
-        //    gameManager.Update(spriteBatch, deltaTime);
-        //    spriteBatch.Dispose();
-        //}
 
         private void GameCanvas_CreateResources(CanvasAnimatedControl sender, CanvasCreateResourcesEventArgs args)
         {
@@ -80,24 +71,74 @@ namespace CosmicBreakout
             gameManager = new GameManager(background, spriteSheet);
         }
 
-        private void GameCanvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
+        private async void GameCanvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
-            //args.Timing.ElapsedTime.Seconds;
+            var reading = gamepad.GetCurrentReading();
+
+            // This handles input that may cause changes to the application as opposed to the game state.
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            () =>
+            {
+                // Handle gamepad input
+                switch (reading.Buttons)
+                {
+                    case GamepadButtons.Menu:
+                        Frame.Navigate(typeof(MainPage));
+                        break;
+                    default:
+                        break;
+                }
+            }
+            );
         }
+
+
 
         private void GameCanvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
-            args.DrawingSession.Units = CanvasUnits.Pixels;
-            var spriteBatch = args.DrawingSession.CreateSpriteBatch(CanvasSpriteSortMode.None,
-                CanvasImageInterpolation.NearestNeighbor, CanvasSpriteOptions.ClampToSourceRect);
+            // Handle Game Input
+            var reading = gamepad.GetCurrentReading();
+            foreach(var paddle in gameManager.Paddles)
+            {
+                paddle.Move(reading.LeftThumbstickX, reading.LeftThumbstickY);
+            }
 
-            if (lastDraw == null) lastDraw = DateTime.Now;
-            var previousDraw = lastDraw;
-            lastDraw = DateTime.Now;
-            var deltaTime = (lastDraw - previousDraw).TotalSeconds;
-
-            gameManager.Update(spriteBatch, deltaTime);
+            var spriteBatch = args.DrawingSession.CreateSpriteBatch(true);
+            gameManager.Update(spriteBatch, DeltaTime);
             spriteBatch.Dispose();
+        }
+
+        private double DeltaTime
+        {
+            get
+            {
+                if (lastDrawTime == null) lastDrawTime = DateTime.Now;
+
+                var previousDrawTime = lastDrawTime;
+                lastDrawTime = DateTime.Now;
+
+                var deltaTime = (lastDrawTime - previousDrawTime).TotalSeconds;
+                return deltaTime;
+            }
+        }
+
+        private void GameCanvas_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+
+            if (e.Key == VirtualKey.Escape)
+            {
+                CoreApplication.Exit();
+            }
+        }
+
+        private void Gamepad_GamepadRemoved(object sender, Gamepad e)
+        {
+            gamepad = null;
+        }
+
+        private void Gamepad_GamepadAdded(object sender, Gamepad e)
+        {
+            gamepad = e;
         }
     }
 }

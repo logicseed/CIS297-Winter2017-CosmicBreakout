@@ -13,22 +13,38 @@ namespace GameObjects
     {
         private CanvasBitmap background;
         private CanvasBitmap spriteSheet;
+        private Random random;
 
         private List<Wall> walls;
         private List<Ball> balls;
+        private List<Paddle> paddles;
 
         public CanvasBitmap SpriteSheet { get => spriteSheet; set => spriteSheet = value; }
         public List<Wall> Walls { get => walls; set => walls = value; }
         public List<Ball> Balls { get => balls; set => balls = value; }
+        public Random Random { get => random; set => random = value; }
+        public List<Paddle> Paddles { get => paddles; set => paddles = value; }
 
         public GameManager(CanvasBitmap background, CanvasBitmap spriteSheet)
         {
+            this.random = new Random(23);
             this.background = background;
             this.spriteSheet = spriteSheet;
 
             BuildWalls();
             balls = new List<Ball>();
-            balls.Add(new Ball(this, 5f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+
+            paddles = new List<Paddle>();
+            paddles.Add(new Paddle(this, 3f, new Rect(64,462,832,16)));
         }
 
         private void BuildWalls()
@@ -46,9 +62,17 @@ namespace GameObjects
             spriteBatch.Draw(background, new Rect(0,0,960,540));
             foreach (var wall in walls) { wall.Update(spriteBatch, deltaTime); }
             foreach (var ball in balls) { ball.Update(spriteBatch, deltaTime); }
+            foreach (var paddle in paddles) { paddle.Update(spriteBatch, deltaTime); }
             //spriteBatch.DrawFromSpriteSheet(spriteSheet, new Rect(), new Rect());
         }
 
+        public void MovePaddles(double input)
+        {
+            foreach (var paddle in paddles)
+            {
+
+            }
+        }
 
     }
 }
