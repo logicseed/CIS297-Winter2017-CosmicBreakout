@@ -1,4 +1,6 @@
-﻿using Microsoft.Graphics.Canvas;
+﻿using System;
+using Microsoft.Graphics.Canvas;
+using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 
 namespace GameObjects
@@ -13,10 +15,15 @@ namespace GameObjects
         public bool DropsPowerup { get => dropsPowerup; set => dropsPowerup = value; }
         public PowerupType DropsPowerupType { get => dropsPowerupType; set => dropsPowerupType = value; }
 
-        public Block(CanvasBitmap spriteSheet, int collisionsRemaining, CollisionLayer collisionLayer)
-            : base(spriteSheet, collisionLayer)
+        public Block(GameManager gameManager, Point location, int collisionsRemaining)
+            : base(gameManager, new Rect(location.X, location.Y, 48, 16), CollisionLayer.Block)
         {
             this.collisionsRemaining = collisionsRemaining;
+        }
+
+        protected override void SetSpriteSource()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -30,6 +30,8 @@ namespace CosmicBreakout
     /// </summary>
     public sealed partial class GamePage : Page
     {
+        private DispatcherTimer dispatcherTimer;
+
         private GameManager gameManager;
         private DateTime lastDraw;
 
@@ -51,7 +53,39 @@ namespace CosmicBreakout
             }
         }
 
-        private void GameCanvas_Draw(CanvasControl sender, CanvasDrawEventArgs args)
+        //private void GameCanvas_Draw(CanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
+        //{
+        //    args.DrawingSession.Units = CanvasUnits.Pixels;
+        //    var spriteBatch = args.DrawingSession.CreateSpriteBatch(CanvasSpriteSortMode.None,
+        //        CanvasImageInterpolation.NearestNeighbor, CanvasSpriteOptions.ClampToSourceRect);
+
+        //    if (lastDraw == null) lastDraw = DateTime.Now;
+        //    var previousDraw = lastDraw;
+        //    lastDraw = DateTime.Now;
+        //    var deltaTime = (lastDraw - previousDraw).TotalSeconds;
+
+        //    gameManager.Update(spriteBatch, deltaTime);
+        //    spriteBatch.Dispose();
+        //}
+
+        private void GameCanvas_CreateResources(CanvasAnimatedControl sender, CanvasCreateResourcesEventArgs args)
+        {
+            args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
+        }
+
+        private async Task CreateResourcesAsync(CanvasAnimatedControl sender)
+        {
+            background = await CanvasBitmap.LoadAsync(sender, "Images/Background.png");
+            spriteSheet = await CanvasBitmap.LoadAsync(sender, "Images/Sprites.png");
+            gameManager = new GameManager(background, spriteSheet);
+        }
+
+        private void GameCanvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
+        {
+            //args.Timing.ElapsedTime.Seconds;
+        }
+
+        private void GameCanvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             args.DrawingSession.Units = CanvasUnits.Pixels;
             var spriteBatch = args.DrawingSession.CreateSpriteBatch(CanvasSpriteSortMode.None,
@@ -64,18 +98,6 @@ namespace CosmicBreakout
 
             gameManager.Update(spriteBatch, deltaTime);
             spriteBatch.Dispose();
-        }
-
-        private void GameCanvas_CreateResources(CanvasControl sender, CanvasCreateResourcesEventArgs args)
-        {
-            args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
-        }
-
-        private async Task CreateResourcesAsync(CanvasControl sender)
-        {
-            background = await CanvasBitmap.LoadAsync(sender, "Images/Background.png");
-            spriteSheet = await CanvasBitmap.LoadAsync(sender, "Images/Sprites.png");
-            gameManager = new GameManager(background, spriteSheet);
         }
     }
 }

@@ -12,18 +12,22 @@ namespace GameObjects
 {
     public class Wall : CollidableSprite
     {
-        private WallSide wallSide;
-        private Rect wallCapASource;
-        private Rect wallCapBSource;
-        private Rect area;
+        protected WallSide wallSide;
+        protected Rect wallCapASource;
+        protected Rect wallCapBSource;
 
-        public Wall(CanvasBitmap spriteSheet, WallSide wallSide, Rect area)
-            : base(spriteSheet, CollisionLayer.Wall)
+        public Wall(GameManager gameManager, WallSide wallSide, Rect bounds)
+            : base(gameManager, bounds, CollisionLayer.Wall)
         {
             this.wallSide = wallSide;
-            this.area = area;
+            SetSpriteSource();
+        }
 
-            switch (wallSide)
+        protected override void SetSpriteSource()
+        {
+            var wall = this as Wall;
+
+            switch (wall.wallSide)
             {
                 case WallSide.Top:
                 case WallSide.Bottom:
@@ -42,39 +46,46 @@ namespace GameObjects
 
         public override void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
         {
-            //base.Update(spriteBatch, deltaTime);
+            base.Update(spriteBatch, deltaTime);
 
-            switch (wallSide)
+            //DrawSprite(spriteBatch);
+        }
+
+        protected override void DrawSprite(CanvasSpriteBatch spriteBatch)
+        {
+            var wall = this as Wall;
+
+            switch (wall.wallSide)
             {
                 case WallSide.Top:
-                    spriteBatch.DrawFromSpriteSheet(spriteSheet,
-                        new Rect(area.X + 16, area.Y, area.Width - 32, area.Height),
+                    spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
+                        new Rect(bounds.X + 16, bounds.Y, bounds.Width - 32, bounds.Height),
                         spriteSource);
-                    spriteBatch.DrawFromSpriteSheet(spriteSheet,
-                        new Rect(area.X, area.Y, 16, 16),
+                    spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
+                        new Rect(bounds.X, bounds.Y, 16, 16),
                         wallCapASource);
-                    spriteBatch.DrawFromSpriteSheet(spriteSheet,
-                        new Rect(area.X + (area.Width - 16), area.Y, 16, 16),
+                    spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
+                        new Rect(bounds.X + (bounds.Width - 16), bounds.Y, 16, 16),
                         wallCapBSource);
                     break;
                 case WallSide.Bottom:
-                    spriteBatch.DrawFromSpriteSheet(spriteSheet,
-                        new Rect(area.X + 16, area.Y, area.Width - 32, area.Height),
+                    spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
+                        new Rect(bounds.X + 16, bounds.Y, bounds.Width - 32, bounds.Height),
                         spriteSource);//, Vector4.One, CanvasSpriteFlip.Vertical);
-                    spriteBatch.DrawFromSpriteSheet(spriteSheet,
-                        new Rect(area.X, area.Y, 16, 16),
+                    spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
+                        new Rect(bounds.X, bounds.Y, 16, 16),
                         wallCapASource);//, new Vector4(0.5f, 0.5f, 0.5f, 1), CanvasSpriteFlip.Vertical);
-                    spriteBatch.DrawFromSpriteSheet(spriteSheet,
-                        new Rect(area.X + (area.Width - 16), area.Y, 16, 16),
+                    spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
+                        new Rect(bounds.X + (bounds.Width - 16), bounds.Y, 16, 16),
                         wallCapBSource);//, new Vector4(0.5f, 0.5f, 0.5f, 1), CanvasSpriteFlip.Vertical);
                     break;
                 case WallSide.Left:
                 case WallSide.Right:
-                    spriteBatch.DrawFromSpriteSheet(spriteSheet,
-                        new Rect(area.X, area.Y, area.Width, area.Height - 16),
+                    spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
+                        new Rect(bounds.X, bounds.Y, bounds.Width, bounds.Height - 16),
                         spriteSource);
-                    spriteBatch.DrawFromSpriteSheet(spriteSheet,
-                        new Rect(area.X, area.Y + (area.Height - 16), 16, 16),
+                    spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
+                        new Rect(bounds.X, bounds.Y + (bounds.Height - 16), 16, 16),
                         wallCapASource);
                     break;
             }

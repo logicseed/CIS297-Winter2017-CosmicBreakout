@@ -2,26 +2,32 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
 
 namespace GameObjects
 {
-    public class MoveableSprite : CollidableSprite
+    public abstract class MoveableSprite : CollidableSprite
     {
         private float maximumSpeed;
+        protected Vector2 velocity;
 
         public float MaximumSpeed { get => maximumSpeed; set => maximumSpeed = value; }
 
-        public MoveableSprite(CanvasBitmap spriteSheet, float maximumSpeed, CollisionLayer collisionLayer)
-            : base(spriteSheet, collisionLayer)
+        public MoveableSprite(GameManager gameManager, Rect bounds, CollisionLayer collisionLayer, float maximumSpeed)
+            : base (gameManager, bounds, collisionLayer)
         {
             this.maximumSpeed = maximumSpeed;
+            this.velocity = new Vector2(maximumSpeed, maximumSpeed);
         }
 
         public override void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
         {
+            location = new Point(location.X + velocity.X, location.Y + velocity.Y);
+
             base.Update(spriteBatch, deltaTime);
         }
 

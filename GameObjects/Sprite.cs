@@ -10,29 +10,34 @@ using Windows.UI.Xaml.Controls;
 
 namespace GameObjects
 {
-    public class Sprite
+    public abstract class Sprite
     {
-        protected CanvasBitmap spriteSheet;
+        protected GameManager gameManager;
+
         protected Rect spriteSource;
+        protected Point location;
+        protected bool destroyMe;
 
-        private Image image;
-        private Size size;
-        private Point location;
-        private bool destroyMe;
-
-        public Image Image { get => image; private set => image = value; }
-        public Size Size { get => size; protected set => size = value; }
         public Point Location { get => location; protected set => location = value; }
         public bool DestroyMe { get => destroyMe; protected set => destroyMe = value; }
 
-        public Sprite(CanvasBitmap spriteSheet)
+        public Sprite(GameManager gameManager, Point location)
         {
-            this.spriteSheet = spriteSheet;
+            this.gameManager = gameManager;
+            this.location = location;
+            SetSpriteSource();
         }
 
         public virtual void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
         {
+            DrawSprite(spriteBatch);
+        }
 
+        protected virtual void DrawSprite(CanvasSpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
+                        new Rect(location.X, location.Y, spriteSource.Width, spriteSource.Height),
+                        spriteSource);
         }
 
         private void UpdateImage()
@@ -40,5 +45,6 @@ namespace GameObjects
             // update image from size and location
         }
 
+        protected abstract void SetSpriteSource();
     }
 }

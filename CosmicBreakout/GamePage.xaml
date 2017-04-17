@@ -9,6 +9,6 @@
     mc:Ignorable="d">
 
     <Grid Background="Black">
-        <canvas:CanvasControl x:Name="GameCanvas" ClearColor="Black" Draw="GameCanvas_Draw" CreateResources="GameCanvas_CreateResources" Width="960" Height="540"/>
+        <canvas:CanvasAnimatedControl x:Name="GameCanvas" ClearColor="Black" Draw="GameCanvas_Draw" CreateResources="GameCanvas_CreateResources" Width="960" Height="540" Update="GameCanvas_Update"/>
     </Grid>
 </Page>

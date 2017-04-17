@@ -5,20 +5,21 @@ using Windows.UI.Xaml.Controls;
 
 namespace GameObjects
 {
-    public class CollidableSprite : Sprite
+    public abstract class CollidableSprite : Sprite
     {
-        private Rect bounds;
-        private CollisionLayer collisionLayer;
-        private List<CollisionLayer> collidesWith;
+        protected Rect bounds;
+        protected CollisionLayer collisionLayer;
+        protected List<CollisionLayer> collidesWith;
 
         public Rect Bounds { get => bounds; protected set => bounds = value; }
         public CollisionLayer CollisionLayer { get => collisionLayer; protected set => collisionLayer = value; }
         public List<CollisionLayer> CollidesWith { get => collidesWith; protected set => collidesWith = value; }
 
-        public CollidableSprite(CanvasBitmap spriteSheet, CollisionLayer collisionLayer)
-            : base (spriteSheet)
+        public CollidableSprite(GameManager gameManager, Rect bounds, CollisionLayer collisionLayer)
+            : base(gameManager, new Point(bounds.X, bounds.Y))
         {
-            //this.bounds = new Rect(new Point(0, 0), new Point(Image.ActualWidth, Image.ActualHeight));
+            this.bounds = bounds;
+            this.collisionLayer = collisionLayer;
         }
 
         public override void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
