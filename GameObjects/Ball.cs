@@ -19,6 +19,7 @@ namespace GameObjects
 
         public override void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
         {
+            //foreach()
             base.Update(spriteBatch, deltaTime);
         }
 

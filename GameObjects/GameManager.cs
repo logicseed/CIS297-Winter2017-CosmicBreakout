@@ -28,7 +28,7 @@ namespace GameObjects
 
             BuildWalls();
             balls = new List<Ball>();
-            balls.Add(new Ball(this, .5f));
+            balls.Add(new Ball(this, 5f));
         }
 
         private void BuildWalls()
