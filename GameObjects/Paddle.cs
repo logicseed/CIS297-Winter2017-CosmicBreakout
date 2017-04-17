@@ -37,8 +37,9 @@ namespace GameObjects
         public void Move(double x, double y)
         {
             if (x > 0.2 || x < -0.2) location.X += x * maximumSpeed;
-            if (y > 0.2 || y < -0.2) location.Y += y * maximumSpeed;
+            if (y > 0.2 || y < -0.2) location.Y -= y * maximumSpeed;
 
+            // Clamp within path
             if (location.X > (path.X + path.Width - bounds.Width))
             {
                 location.X = (path.X + path.Width - bounds.Width);
@@ -49,14 +50,14 @@ namespace GameObjects
                 location.X = path.X;
             }
 
-            if (location.Y > path.Y)
-            {
-                location.Y = path.Y;
-            }
-
-            if (location.Y < (path.Y + path.Height - bounds.Height))
+            if (location.Y > (path.Y + path.Height - bounds.Height))
             {
                 location.Y = (path.Y + path.Height - bounds.Height);
+            }
+
+            if (location.Y < path.Y)
+            {
+                location.Y = path.Y;
             }
         }
     }

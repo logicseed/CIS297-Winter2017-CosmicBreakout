@@ -44,7 +44,7 @@ namespace GameObjects
             balls.Add(new Ball(this, 3f));
 
             paddles = new List<Paddle>();
-            paddles.Add(new Paddle(this, 3f, new Rect(64,462,832,16)));
+            paddles.Add(new Paddle(this, 3f, new Rect(64,462,832,48)));
         }
 
         private void BuildWalls()
