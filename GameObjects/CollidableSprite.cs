@@ -23,6 +23,8 @@ namespace GameObjects
         public override void Update()
         {
             base.Update();
+            bounds.X = location.X;
+            bounds.Y = location.Y;
         }
     }
 }

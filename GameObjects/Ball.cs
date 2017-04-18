@@ -28,16 +28,22 @@ namespace GameObjects
             base.Update();
             CheckCollisions(gameManager.Walls);
             CheckCollisions(gameManager.Paddles);
+            CheckCollisions(gameManager.Blocks);
         }
 
         protected void CheckCollisions<T>(List<T> sprites) where T : CollidableSprite
         {
+            var hasCollided = false;
             foreach (var sprite in sprites)
             {
+                if (hasCollided) break;
+
                 var collisionBounds = new Rect(bounds.X, bounds.Y, bounds.Width, bounds.Height);
                 collisionBounds.Intersect(sprite.Bounds);
                 if (!collisionBounds.IsEmpty)
                 {
+                    hasCollided = true;
+
                     // Collided on left or right
                     if (collisionBounds.Center().X != bounds.Center().X)
                     {
@@ -67,6 +73,11 @@ namespace GameObjects
                         {
                             location.Y -= collisionBounds.Height;
                         }
+                    }
+
+                    if (sprite.CollisionLayer == CollisionLayer.Block)
+                    {
+                        (sprite as Block).Hit();
                     }
                 }
             }
