@@ -9,11 +9,9 @@ namespace GameObjects
     {
         protected Rect bounds;
         protected CollisionLayer collisionLayer;
-        protected List<CollisionLayer> collidesWith;
 
         public Rect Bounds { get => bounds; protected set => bounds = value; }
         public CollisionLayer CollisionLayer { get => collisionLayer; protected set => collisionLayer = value; }
-        public List<CollisionLayer> CollidesWith { get => collidesWith; protected set => collidesWith = value; }
 
         public CollidableSprite(GameManager gameManager, Rect bounds, CollisionLayer collisionLayer)
             : base(gameManager, new Point(bounds.X, bounds.Y))
@@ -22,14 +20,9 @@ namespace GameObjects
             this.collisionLayer = collisionLayer;
         }
 
-        public override void Update(double deltaTime)
+        public override void Update()
         {
-            base.Update(deltaTime);
-        }
-
-        private void UpdateCollisions(float deltaTime)
-        {
-
+            base.Update();
         }
     }
 }

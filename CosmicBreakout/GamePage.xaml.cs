@@ -1,29 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using GameObjects;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.UI;
+using Microsoft.Graphics.Canvas.UI.Xaml;
+using System;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.Gaming.Input;
+using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using Microsoft.Graphics.Canvas.UI.Xaml;
-using Windows.UI;
-using Windows.UI.Core;
-using Windows.ApplicationModel.Core;
-using GameObjects;
-using Microsoft.Graphics.Canvas.UI;
-using System.Threading.Tasks;
-using Microsoft.Graphics.Canvas;
-using Windows.System;
-using Windows.Gaming.Input;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace CosmicBreakout
 {
@@ -35,7 +21,6 @@ namespace CosmicBreakout
         private Gamepad gamepad = null;
 
         private GameManager gameManager;
-        private DateTime lastDrawTime;
 
         private CanvasBitmap background;
         private CanvasBitmap spriteSheet;
@@ -45,11 +30,17 @@ namespace CosmicBreakout
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Loads the image resources and game manager into memory.
+        /// </summary>
         private void GameCanvas_CreateResources(CanvasAnimatedControl sender, CanvasCreateResourcesEventArgs args)
         {
             args.TrackAsyncAction(CreateResourcesAsync(sender).AsAsyncAction());
         }
 
+        /// <summary>
+        /// Loads the image resources and game manager into memory asynchronously.
+        /// </summary>
         private async Task CreateResourcesAsync(CanvasAnimatedControl sender)
         {
             background = await CanvasBitmap.LoadAsync(sender, "Images/Background.png");
@@ -57,8 +48,13 @@ namespace CosmicBreakout
             gameManager = new GameManager(background, spriteSheet);
         }
 
+        /// <summary>
+        /// Primary game logic loop. Called at a fixed interval.
+        /// </summary>
         private void GameCanvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
+            if (gamepad == null && Gamepad.Gamepads.Count > 0) gamepad = Gamepad.Gamepads[0];
+
             if (gamepad != null)
             {
                 var reading = gamepad.GetCurrentReading();
@@ -78,11 +74,13 @@ namespace CosmicBreakout
                     paddle.Move(reading.LeftThumbstickX, reading.LeftThumbstickY);
                 }
             }
-            gameManager.Update(DeltaTime);
+            gameManager.Update();
         }
 
 
-
+        /// <summary>
+        /// Primary graphics loop. Called 60 times per second.
+        /// </summary>
         private void GameCanvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             var spriteBatch = args.DrawingSession.CreateSpriteBatch(true);
@@ -90,20 +88,9 @@ namespace CosmicBreakout
             spriteBatch.Dispose();
         }
 
-        private double DeltaTime
-        {
-            get
-            {
-                if (lastDrawTime == null) lastDrawTime = DateTime.Now;
-
-                var previousDrawTime = lastDrawTime;
-                lastDrawTime = DateTime.Now;
-
-                var deltaTime = (lastDrawTime - previousDrawTime).TotalSeconds;
-                return deltaTime;
-            }
-        }
-
+        /// <summary>
+        /// Handles keyboard input events.
+        /// </summary>
         private void GameCanvas_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
             args.Handled = true;
@@ -111,6 +98,10 @@ namespace CosmicBreakout
             var action = GameCanvas.RunOnGameLoopThreadAsync(() => KeyDown_GameLoopThread(virtualKey));
         }
 
+        /// <summary>
+        /// Handles input on the gameloop thread.
+        /// </summary>
+        /// <param name="virtualKey"></param>
         private void KeyDown_GameLoopThread(VirtualKey virtualKey)
         {
             switch (virtualKey)
@@ -135,6 +126,9 @@ namespace CosmicBreakout
             }
         }
 
+        /// <summary>
+        ///
+        /// </summary>
         private void Gamepad_GamepadRemoved(object sender, Gamepad e)
         {
             gamepad = null;
@@ -145,6 +139,9 @@ namespace CosmicBreakout
             gamepad = e;
         }
 
+        /// <summary>
+        /// Register events upon page loaded.
+        /// </summary>
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             Gamepad.GamepadAdded += Gamepad_GamepadAdded;
@@ -152,6 +149,9 @@ namespace CosmicBreakout
             Window.Current.CoreWindow.KeyDown += GameCanvas_KeyDown;
         }
 
+        /// <summary>
+        /// Unregister events upon page unloaded.
+        /// </summary>
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             Gamepad.GamepadAdded -= Gamepad_GamepadAdded;

@@ -44,7 +44,7 @@ namespace GameObjects
             balls.Add(new Ball(this, 3f));
 
             paddles = new List<Paddle>();
-            paddles.Add(new Paddle(this, 3f, new Rect(64,462,832,48)));
+            paddles.Add(new Paddle(this, 5f, new Rect(64,462,832,48)));
         }
 
         private void BuildWalls()
@@ -57,11 +57,11 @@ namespace GameObjects
             walls.Add(new Wall(this, WallSide.Right, new Rect(896, 46, 16, 464)));
         }
 
-        public void Update(double deltaTime)
+        public void Update()
         {
-            foreach (var wall in walls) { wall.Update(deltaTime); }
-            foreach (var ball in balls) { ball.Update(deltaTime); }
-            foreach (var paddle in paddles) { paddle.Update(deltaTime); }
+            foreach (var wall in walls) { wall.Update(); }
+            foreach (var ball in balls) { ball.Update(); }
+            foreach (var paddle in paddles) { paddle.Update(); }
         }
 
         public void Draw(CanvasSpriteBatch spriteBatch)

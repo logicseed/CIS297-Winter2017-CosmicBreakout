@@ -23,9 +23,9 @@ namespace GameObjects
                 );
         }
 
-        public override void Update(double deltaTime)
+        public override void Update()
         {
-            base.Update(deltaTime);
+            base.Update();
             CheckCollisions(gameManager.Walls);
             CheckCollisions(gameManager.Paddles);
         }

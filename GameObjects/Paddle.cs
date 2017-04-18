@@ -19,9 +19,9 @@ namespace GameObjects
             this.path = path;
         }
 
-        public override void Update(double deltaTime)
+        public override void Update()
         {
-            base.Update(deltaTime);
+            base.Update();
         }
 
         protected override void SetSpriteSource()

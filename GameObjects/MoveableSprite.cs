@@ -22,18 +22,13 @@ namespace GameObjects
             //this.velocity = new Vector2(maximumSpeed, maximumSpeed);
         }
 
-        public override void Update(double deltaTime)
+        public override void Update()
         {
             location = new Point(location.X + velocity.X, location.Y + velocity.Y);
             bounds.X = location.X;
             bounds.Y = location.Y;
 
-            base.Update(deltaTime);
-        }
-
-        private void UpdateMovement(float deltaTime)
-        {
-
+            base.Update();
         }
     }
 }
