@@ -19,19 +19,14 @@ namespace GameObjects
             this.path = path;
         }
 
-        public override void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
+        public override void Update(double deltaTime)
         {
-            base.Update(spriteBatch, deltaTime);
+            base.Update(deltaTime);
         }
 
         protected override void SetSpriteSource()
         {
             spriteSource = new Rect(16, 0, 80, 16);
-        }
-
-        private void UpdateInput(float deltaTime)
-        {
-
         }
 
         public void Move(double x, double y)

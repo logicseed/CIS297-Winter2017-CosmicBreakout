@@ -23,9 +23,9 @@ namespace GameObjects
                 );
         }
 
-        public override void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
+        public override void Update(double deltaTime)
         {
-            base.Update(spriteBatch, deltaTime);
+            base.Update(deltaTime);
             CheckCollisions(gameManager.Walls);
             CheckCollisions(gameManager.Paddles);
         }

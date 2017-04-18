@@ -43,20 +43,6 @@ namespace CosmicBreakout
         public GamePage()
         {
             this.InitializeComponent();
-
-            Gamepad.GamepadAdded += Gamepad_GamepadAdded;
-            Gamepad.GamepadRemoved += Gamepad_GamepadRemoved;
-
-            Window.Current.CoreWindow.CharacterReceived += CoreWindow_CharacterReceived;
-            //this.Focus(FocusState.Programmatic);
-        }
-
-        private void CoreWindow_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
-        {
-            if (args.KeyCode == 27) //ESC
-            {
-                CoreApplication.Exit();
-            }
         }
 
         private void GameCanvas_CreateResources(CanvasAnimatedControl sender, CanvasCreateResourcesEventArgs args)
@@ -71,40 +57,36 @@ namespace CosmicBreakout
             gameManager = new GameManager(background, spriteSheet);
         }
 
-        private async void GameCanvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
+        private void GameCanvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
-            var reading = gamepad.GetCurrentReading();
-
-            // This handles input that may cause changes to the application as opposed to the game state.
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () =>
+            if (gamepad != null)
             {
-                // Handle gamepad input
+                var reading = gamepad.GetCurrentReading();
+
                 switch (reading.Buttons)
                 {
                     case GamepadButtons.Menu:
-                        Frame.Navigate(typeof(MainPage));
+                        CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                        () => { Frame.Navigate(typeof(MainPage)); });
                         break;
                     default:
                         break;
                 }
+
+                foreach (var paddle in gameManager.Paddles)
+                {
+                    paddle.Move(reading.LeftThumbstickX, reading.LeftThumbstickY);
+                }
             }
-            );
+            gameManager.Update(DeltaTime);
         }
 
 
 
         private void GameCanvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
-            // Handle Game Input
-            var reading = gamepad.GetCurrentReading();
-            foreach(var paddle in gameManager.Paddles)
-            {
-                paddle.Move(reading.LeftThumbstickX, reading.LeftThumbstickY);
-            }
-
             var spriteBatch = args.DrawingSession.CreateSpriteBatch(true);
-            gameManager.Update(spriteBatch, DeltaTime);
+            gameManager.Draw(spriteBatch);
             spriteBatch.Dispose();
         }
 
@@ -122,12 +104,34 @@ namespace CosmicBreakout
             }
         }
 
-        private void GameCanvas_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void GameCanvas_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
+            args.Handled = true;
+            var virtualKey = args.VirtualKey;
+            var action = GameCanvas.RunOnGameLoopThreadAsync(() => KeyDown_GameLoopThread(virtualKey));
+        }
 
-            if (e.Key == VirtualKey.Escape)
+        private void KeyDown_GameLoopThread(VirtualKey virtualKey)
+        {
+            switch (virtualKey)
             {
-                CoreApplication.Exit();
+                case VirtualKey.Escape:
+                    CoreApplication.Exit();
+                    break;
+                case VirtualKey.Up:
+                    foreach (var paddle in gameManager.Paddles) paddle.Move(0, 2);
+                    break;
+                case VirtualKey.Down:
+                    foreach (var paddle in gameManager.Paddles) paddle.Move(0, -2);
+                    break;
+                case VirtualKey.Left:
+                    foreach (var paddle in gameManager.Paddles) paddle.Move(-2, 0);
+                    break;
+                case VirtualKey.Right:
+                    foreach (var paddle in gameManager.Paddles) paddle.Move(2, 0);
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -139,6 +143,23 @@ namespace CosmicBreakout
         private void Gamepad_GamepadAdded(object sender, Gamepad e)
         {
             gamepad = e;
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            Gamepad.GamepadAdded += Gamepad_GamepadAdded;
+            Gamepad.GamepadRemoved += Gamepad_GamepadRemoved;
+            Window.Current.CoreWindow.KeyDown += GameCanvas_KeyDown;
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Gamepad.GamepadAdded -= Gamepad_GamepadAdded;
+            Gamepad.GamepadRemoved -= Gamepad_GamepadRemoved;
+            Window.Current.CoreWindow.KeyDown -= GameCanvas_KeyDown;
+
+            GameCanvas.RemoveFromVisualTree();
+            GameCanvas = null;
         }
     }
 }

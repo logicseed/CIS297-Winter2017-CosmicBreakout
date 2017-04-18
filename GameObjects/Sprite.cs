@@ -28,21 +28,16 @@ namespace GameObjects
             SetSpriteSource();
         }
 
-        public virtual void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
+        public virtual void Update(double deltaTime)
         {
-            DrawSprite(spriteBatch);
+
         }
 
-        protected virtual void DrawSprite(CanvasSpriteBatch spriteBatch)
+        public virtual void Draw(CanvasSpriteBatch spriteBatch)
         {
             spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
                         new Rect(location.X, location.Y, spriteSource.Width, spriteSource.Height),
                         spriteSource);
-        }
-
-        private void UpdateImage()
-        {
-            // update image from size and location
         }
 
         protected abstract void SetSpriteSource();

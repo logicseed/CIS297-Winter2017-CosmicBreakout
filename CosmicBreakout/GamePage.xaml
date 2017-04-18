@@ -6,9 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
 
     <Grid Background="Black">
-        <canvas:CanvasAnimatedControl x:Name="GameCanvas" ClearColor="Black" Draw="GameCanvas_Draw" CreateResources="GameCanvas_CreateResources" Width="960" Height="540" Update="GameCanvas_Update" KeyDown="GameCanvas_KeyDown"/>
+        <canvas:CanvasAnimatedControl x:Name="GameCanvas" ClearColor="Black" Draw="GameCanvas_Draw" CreateResources="GameCanvas_CreateResources" Width="960" Height="540" Update="GameCanvas_Update" IsFixedTimeStep="True"/>
     </Grid>
 </Page>

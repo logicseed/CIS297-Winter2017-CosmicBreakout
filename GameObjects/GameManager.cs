@@ -57,22 +57,19 @@ namespace GameObjects
             walls.Add(new Wall(this, WallSide.Right, new Rect(896, 46, 16, 464)));
         }
 
-        public void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
+        public void Update(double deltaTime)
         {
-            spriteBatch.Draw(background, new Rect(0,0,960,540));
-            foreach (var wall in walls) { wall.Update(spriteBatch, deltaTime); }
-            foreach (var ball in balls) { ball.Update(spriteBatch, deltaTime); }
-            foreach (var paddle in paddles) { paddle.Update(spriteBatch, deltaTime); }
-            //spriteBatch.DrawFromSpriteSheet(spriteSheet, new Rect(), new Rect());
+            foreach (var wall in walls) { wall.Update(deltaTime); }
+            foreach (var ball in balls) { ball.Update(deltaTime); }
+            foreach (var paddle in paddles) { paddle.Update(deltaTime); }
         }
 
-        public void MovePaddles(double input)
+        public void Draw(CanvasSpriteBatch spriteBatch)
         {
-            foreach (var paddle in paddles)
-            {
-
-            }
+            spriteBatch.Draw(background, new Rect(0, 0, 960, 540));
+            foreach (var wall in walls) { wall.Draw(spriteBatch); }
+            foreach (var ball in balls) { ball.Draw(spriteBatch); }
+            foreach (var paddle in paddles) { paddle.Draw(spriteBatch); }
         }
-
     }
 }

@@ -44,14 +44,14 @@ namespace GameObjects
             }
         }
 
-        public override void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
+        public override void Update(double deltaTime)
         {
-            base.Update(spriteBatch, deltaTime);
+            base.Update(deltaTime);
 
             //DrawSprite(spriteBatch);
         }
 
-        protected override void DrawSprite(CanvasSpriteBatch spriteBatch)
+        public override void Draw(CanvasSpriteBatch spriteBatch)
         {
             var wall = this as Wall;
 

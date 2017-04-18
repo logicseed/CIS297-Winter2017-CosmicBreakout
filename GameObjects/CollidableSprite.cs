@@ -22,9 +22,9 @@ namespace GameObjects
             this.collisionLayer = collisionLayer;
         }
 
-        public override void Update(CanvasSpriteBatch spriteBatch, double deltaTime)
+        public override void Update(double deltaTime)
         {
-            base.Update(spriteBatch, deltaTime);
+            base.Update(deltaTime);
         }
 
         private void UpdateCollisions(float deltaTime)
