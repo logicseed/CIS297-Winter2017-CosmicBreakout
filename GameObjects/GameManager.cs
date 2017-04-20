@@ -133,7 +133,7 @@ namespace GameObjects
         {
             if (powerupType != PowerupType.None)
             {
-                powerups.Add(new Powerup(this, location, 1f, powerupType));
+                powerups.Add(new Powerup(this, location, 1f, powerupType, 480));
             }
         }
 
