@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="Ball.cs" />
     <Compile Include="Block.cs" />
+    <Compile Include="BlockType.cs" />
     <Compile Include="CollidableSprite.cs" />
     <Compile Include="CollisionLayer.cs" />
     <Compile Include="Extensions.cs" />

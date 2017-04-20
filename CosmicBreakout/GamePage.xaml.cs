@@ -75,6 +75,11 @@ namespace CosmicBreakout
                 }
             }
             gameManager.Update();
+
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                ScoreBox.Text = gameManager.score.ToString();
+            });
         }
 
 

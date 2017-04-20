@@ -15,8 +15,9 @@ namespace GameObjects
         private CanvasBitmap spriteSheet;
         private Random random;
 
+        public int score = 0;
         private int blockTicks = 0;
-        private const int MAX_BLOCK_TICKS = 120;
+        private const int MAX_BLOCK_TICKS = 600;
 
         private List<Wall> walls;
         private List<Ball> balls;
@@ -81,18 +82,45 @@ namespace GameObjects
             for (int i = 0; i < 7; i++)
             {
                 var location = new Point(112 + (i * 48), 94);
-                blocks.Add(new Block(this, location, random.Next(1, 4)));
+                int rand = random.Next(1, 4);
+
+                switch (rand)
+                {
+                    case 1:
+                        blocks.Add(new Block(this, location, rand, BlockType.OneHit));
+                        break;
+                    case 2:
+                        blocks.Add(new Block(this, location, rand, BlockType.TwoHit));
+                        break;
+                    case 3:
+                        blocks.Add(new Block(this, location, rand, BlockType.ThreeHit));
+                        break;
+                }
             }
             // Create right side
             for (int i = 0; i < 7; i++)
             {
                 var location = new Point(512 + (i * 48), 94);
-                blocks.Add(new Block(this, location, random.Next(1, 4)));
+                int rand = random.Next(1, 4);
+
+                switch (rand)
+                {
+                    case 1:
+                        blocks.Add(new Block(this, location, rand, BlockType.OneHit));
+                        break;
+                    case 2:
+                        blocks.Add(new Block(this, location, rand, BlockType.TwoHit));
+                        break;
+                    case 3:
+                        blocks.Add(new Block(this, location, rand, BlockType.ThreeHit));
+                        break;
+                }
             }
         }
 
         public void Update()
         {
+            CalculateScore(blocks);
             // Cleanup game objects
             DestroyGameObjects(balls);
             DestroyGameObjects(paddles);
@@ -115,6 +143,28 @@ namespace GameObjects
             }
         }
 
+        private void CalculateScore(List<Block> blocks)
+        {
+            foreach (var block in blocks)
+            {
+                if (block.DestroyMe)
+                {
+                    switch (block.Type)
+                    {
+                        case BlockType.OneHit:
+                            score += 1;
+                            break;
+                        case BlockType.TwoHit:
+                            score += 3;
+                            break;
+                        case BlockType.ThreeHit:
+                            score += 7;
+                            break;
+                    }
+                }
+            }
+        }
+
         private void DestroyGameObjects<T>(List<T> gameObjects) where T : Sprite
         {
             var indexesToDelete = new List<int>();
@@ -133,7 +183,7 @@ namespace GameObjects
         {
             if (powerupType != PowerupType.None)
             {
-                powerups.Add(new Powerup(this, location, 1f, powerupType, 480));
+                powerups.Add(new Powerup(this, location, 1f, powerupType, 360));
             }
         }
 

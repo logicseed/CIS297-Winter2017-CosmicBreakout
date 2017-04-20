@@ -7,15 +7,18 @@ namespace GameObjects
 {
     public class Block : CollidableSprite
     {
+        private BlockType type;
         private int collisionsRemaining;
         private PowerupType powerupType = PowerupType.None;
 
+        public BlockType Type { get => type; set => type = value; }
         public int CollisionsRemaining { get => collisionsRemaining; set => collisionsRemaining = value; }
         public PowerupType PowerupType { get => powerupType; set => powerupType = value; }
 
-        public Block(GameManager gameManager, Point location, int collisionsRemaining)
+        public Block(GameManager gameManager, Point location, int collisionsRemaining, BlockType type)
             : base(gameManager, new Rect(location.X, location.Y, 48, 16), CollisionLayer.Block)
         {
+            this.type = type;
             this.collisionsRemaining = collisionsRemaining;
 
             if ((gameManager.Random.NextDouble() < 0.2))
