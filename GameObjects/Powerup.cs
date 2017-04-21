@@ -12,14 +12,11 @@ namespace GameObjects
     public class Powerup : MoveableSprite
     {
         private PowerupType powerupType;
-        private int tick;
-        private int ticksToLive;
-
+ 
         public Powerup(GameManager gameManager, Point location, float maximumSpeed, PowerupType powerupType, int ticksToLive)
             : base(gameManager, new Rect(location.X, location.Y, 48, 16), CollisionLayer.Powerup, maximumSpeed)
         {
             this.powerupType = powerupType;
-            this.ticksToLive = ticksToLive;
             SetSpriteSource();
             velocity.Y = maximumSpeed;
         }
@@ -27,10 +24,8 @@ namespace GameObjects
         public override void Update()
         {
             base.Update();
-            tick++;
-            if (tick >= ticksToLive)
-                destroyMe = true;
             CheckCollisions(gameManager.Paddles);
+            CheckCollisions(gameManager.OutOfBounds);
         }
 
         protected void CheckCollisions<T>(List<T> sprites) where T : CollidableSprite
@@ -41,14 +36,19 @@ namespace GameObjects
                 collisionBounds.Intersect(sprite.Bounds);
                 if (!collisionBounds.IsEmpty)
                 {
-                    // Collided on left or right
+                    // Collided on any side
                     if (collisionBounds.Center().X != bounds.Center().X || 
                         collisionBounds.Center().Y != bounds.Center().Y)
                     {
                         destroyMe = true;
                     }
-                    // Collided on top or bottom
+                    if(sprite.CollisionLayer == CollisionLayer.Destroy)
+                    {
+                        destroyMe = true;
+                    }
+                    
                 }
+
             }
         }
 

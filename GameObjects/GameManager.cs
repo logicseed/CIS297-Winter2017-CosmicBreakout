@@ -24,6 +24,7 @@ namespace GameObjects
         private List<Paddle> paddles;
         private List<Block> blocks;
         private List<Powerup> powerups;
+        private List<Destroy> outOfBounds;
 
         public CanvasBitmap SpriteSheet { get => spriteSheet; set => spriteSheet = value; }
         public List<Wall> Walls { get => walls; set => walls = value; }
@@ -32,6 +33,7 @@ namespace GameObjects
         public List<Paddle> Paddles { get => paddles; set => paddles = value; }
         public List<Block> Blocks { get => blocks; set => blocks = value; }
         public List<Powerup> Powerups { get => powerups; set => powerups = value; }
+        public List<Destroy> OutOfBounds { get => outOfBounds; set => outOfBounds = value; }
 
         public GameManager(CanvasBitmap background, CanvasBitmap spriteSheet)
         {
@@ -66,11 +68,13 @@ namespace GameObjects
         private void BuildWalls()
         {
             walls = new List<Wall>();
+            outOfBounds = new List<Destroy>();
 
             walls.Add(new Wall(this, WallSide.Top, new Rect(48, 30, 864, 16)));
-            walls.Add(new Wall(this, WallSide.Bottom, new Rect(48, 510, 864, 16)));
+            //walls.Add(new Wall(this, WallSide.Bottom, new Rect(48, 510, 864, 16)));
             walls.Add(new Wall(this, WallSide.Left, new Rect(48, 46, 16, 464)));
             walls.Add(new Wall(this, WallSide.Right, new Rect(896, 46, 16, 464)));
+            outOfBounds.Add(new Destroy(this, new Rect(48, 540,960, 16)));
         }
 
         private void BuildBlockRow()

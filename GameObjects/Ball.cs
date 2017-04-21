@@ -29,6 +29,7 @@ namespace GameObjects
             CheckCollisions(gameManager.Walls);
             CheckCollisions(gameManager.Paddles);
             CheckCollisions(gameManager.Blocks);
+            CheckCollisions(gameManager.OutOfBounds);
         }
 
         protected void CheckCollisions<T>(List<T> sprites) where T : CollidableSprite
@@ -78,6 +79,11 @@ namespace GameObjects
                     if (sprite.CollisionLayer == CollisionLayer.Block)
                     {
                         (sprite as Block).Hit();
+                    }
+
+                    if(sprite.CollisionLayer == CollisionLayer.Destroy)
+                    {
+                        destroyMe = true;
                     }
                 }
             }
