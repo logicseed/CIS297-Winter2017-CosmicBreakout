@@ -4,6 +4,7 @@
     {
         None,
         Destroy,
+        MaxBlocks,
         Wall,
         Block,
         Paddle,

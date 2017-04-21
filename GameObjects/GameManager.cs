@@ -16,15 +16,17 @@ namespace GameObjects
         private Random random;
 
         public int score = 0;
+        public bool gameOver = false;
         private int blockTicks = 0;
-        private const int MAX_BLOCK_TICKS = 600;
+        private const int MAX_BLOCK_TICKS = 240;
 
         private List<Wall> walls;
         private List<Ball> balls;
         private List<Paddle> paddles;
         private List<Block> blocks;
         private List<Powerup> powerups;
-        private List<Destroy> outOfBounds;
+        private List<Destroy> screenBounds;
+        private List<MaxBlocks> blockBounds;
 
         public CanvasBitmap SpriteSheet { get => spriteSheet; set => spriteSheet = value; }
         public List<Wall> Walls { get => walls; set => walls = value; }
@@ -33,7 +35,8 @@ namespace GameObjects
         public List<Paddle> Paddles { get => paddles; set => paddles = value; }
         public List<Block> Blocks { get => blocks; set => blocks = value; }
         public List<Powerup> Powerups { get => powerups; set => powerups = value; }
-        public List<Destroy> OutOfBounds { get => outOfBounds; set => outOfBounds = value; }
+        public List<Destroy> ScreenBounds { get => screenBounds; set => screenBounds = value; }
+        public List<MaxBlocks> BlockBounds { get => blockBounds; set => blockBounds = value; }
 
         public GameManager(CanvasBitmap background, CanvasBitmap spriteSheet)
         {
@@ -42,6 +45,7 @@ namespace GameObjects
             this.spriteSheet = spriteSheet;
 
             BuildWalls();
+            BuildBounds();
             balls = new List<Ball>();
             balls.Add(new Ball(this, 3f));
             balls.Add(new Ball(this, 3f));
@@ -68,13 +72,20 @@ namespace GameObjects
         private void BuildWalls()
         {
             walls = new List<Wall>();
-            outOfBounds = new List<Destroy>();
-
+           
             walls.Add(new Wall(this, WallSide.Top, new Rect(48, 30, 864, 16)));
             //walls.Add(new Wall(this, WallSide.Bottom, new Rect(48, 510, 864, 16)));
             walls.Add(new Wall(this, WallSide.Left, new Rect(48, 46, 16, 464)));
             walls.Add(new Wall(this, WallSide.Right, new Rect(896, 46, 16, 464)));
-            outOfBounds.Add(new Destroy(this, new Rect(48, 540,960, 16)));
+        }
+
+        private void BuildBounds()
+        {
+            screenBounds = new List<Destroy>();
+            blockBounds = new List<MaxBlocks>();
+
+            screenBounds.Add(new Destroy(this, new Rect(48, 530, 960, 16)));
+            blockBounds.Add(new MaxBlocks(this, new Rect(48, 400, 864, 16)));
         }
 
         private void BuildBlockRow()
@@ -124,6 +135,7 @@ namespace GameObjects
 
         public void Update()
         {
+            BallsInPlay();
             CalculateScore(blocks);
             // Cleanup game objects
             DestroyGameObjects(balls);
@@ -199,6 +211,12 @@ namespace GameObjects
             foreach (var paddle in paddles) { paddle.Draw(spriteBatch); }
             foreach (var block in blocks) { block.Draw(spriteBatch); }
             foreach (var powerup in powerups) { powerup.Draw(spriteBatch); }
+        }
+
+        public void BallsInPlay()
+        {
+            if (Balls.Count <= 0)
+                gameOver = true;
         }
     }
 }

@@ -75,6 +75,11 @@ namespace CosmicBreakout
                 }
             }
             gameManager.Update();
+            if(gameManager.gameOver)
+            {
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                       () => { Frame.Navigate(typeof(MainPage)); });
+            }
 
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {

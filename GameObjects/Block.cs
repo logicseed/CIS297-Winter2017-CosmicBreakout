@@ -2,6 +2,7 @@
 using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
+using System.Collections.Generic;
 
 namespace GameObjects
 {
@@ -29,6 +30,12 @@ namespace GameObjects
             SetSpriteSource();
         }
 
+        public override void Update()
+        {
+            base.Update();
+            CheckCollisions(gameManager.BlockBounds);
+        }
+
         protected override void SetSpriteSource()
         {
             switch (collisionsRemaining)
@@ -42,6 +49,22 @@ namespace GameObjects
                 default:
                     spriteSource = new Rect(64, 48, 48, 16);
                     break;
+            }
+        }
+
+        protected void CheckCollisions<T>(List<T> sprites) where T : CollidableSprite
+        {
+            foreach (var sprite in sprites)
+            {
+                var collisionBounds = new Rect(bounds.X, bounds.Y, bounds.Width, bounds.Height);
+                collisionBounds.Intersect(sprite.Bounds);
+                if (!collisionBounds.IsEmpty)
+                {
+                    if (sprite.CollisionLayer == CollisionLayer.MaxBlocks)
+                    {
+                        gameManager.gameOver = true;
+                    }
+                }
             }
         }
 

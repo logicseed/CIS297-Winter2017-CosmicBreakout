@@ -25,7 +25,7 @@ namespace GameObjects
         {
             base.Update();
             CheckCollisions(gameManager.Paddles);
-            CheckCollisions(gameManager.OutOfBounds);
+            CheckCollisions(gameManager.ScreenBounds);
         }
 
         protected void CheckCollisions<T>(List<T> sprites) where T : CollidableSprite

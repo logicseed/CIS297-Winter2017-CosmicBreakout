@@ -29,7 +29,7 @@ namespace GameObjects
             CheckCollisions(gameManager.Walls);
             CheckCollisions(gameManager.Paddles);
             CheckCollisions(gameManager.Blocks);
-            CheckCollisions(gameManager.OutOfBounds);
+            CheckCollisions(gameManager.ScreenBounds);
         }
 
         protected void CheckCollisions<T>(List<T> sprites) where T : CollidableSprite
