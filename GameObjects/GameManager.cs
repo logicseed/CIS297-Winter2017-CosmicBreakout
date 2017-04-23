@@ -18,7 +18,7 @@ namespace GameObjects
         public int score = 0;
         public bool gameOver = false;
         private int blockTicks = 0;
-        private const int MAX_BLOCK_TICKS = 240;
+        private const int MAX_BLOCK_TICKS = 900;
 
         private List<Wall> walls;
         private List<Ball> balls;
@@ -137,6 +137,7 @@ namespace GameObjects
         {
             BallsInPlay();
             CalculateScore(blocks);
+
             // Cleanup game objects
             DestroyGameObjects(balls);
             DestroyGameObjects(paddles);
@@ -217,6 +218,28 @@ namespace GameObjects
         {
             if (Balls.Count <= 0)
                 gameOver = true;
+        }
+
+        public void MultiBall()
+        {
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, 3f));
+        }
+
+        public void WidePaddle()
+        {
+
+        }
+
+        public void StackedPaddle()
+        {
+
         }
     }
 }

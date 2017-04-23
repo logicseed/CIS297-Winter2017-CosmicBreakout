@@ -10,6 +10,7 @@
 
     <Grid Background="Black">
         <canvas:CanvasAnimatedControl x:Name="GameCanvas" ClearColor="Black" Draw="GameCanvas_Draw" CreateResources="GameCanvas_CreateResources" Width="960" Height="540" Update="GameCanvas_Update" IsFixedTimeStep="True"/>
-        <TextBlock x:Name="ScoreBox" HorizontalAlignment="Left" Margin="50,25,0,0" VerticalAlignment="Top" Height="50" Width="50" FontSize="15" Foreground="White"/>
+        <TextBlock Text="Score: " HorizontalAlignment="Left" Margin="50,25,0,0" VerticalAlignment="Top" Height="25" Width="50" FontSize="15" Foreground="White"/>
+        <TextBlock x:Name="ScoreBox" HorizontalAlignment="Left" Margin="95,25,0,0" VerticalAlignment="Top" Height="25" Width="50" FontSize="15" Foreground="White"/>
     </Grid>
 </Page>
