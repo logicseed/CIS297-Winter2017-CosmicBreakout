@@ -12,6 +12,9 @@ namespace GameObjects
     public class Powerup : MoveableSprite
     {
         private PowerupType powerupType;
+        private bool multiBallCollided = false;
+        private bool stackedPaddleCollided = false;
+        private bool widePaddleColiided = false;
  
         public Powerup(GameManager gameManager, Point location, float maximumSpeed, PowerupType powerupType, int ticksToLive)
             : base(gameManager, new Rect(location.X, location.Y, 48, 16), CollisionLayer.Powerup, maximumSpeed)
@@ -40,16 +43,27 @@ namespace GameObjects
                     if (collisionBounds.Center().X != bounds.Center().X || 
                         collisionBounds.Center().Y != bounds.Center().Y)
                     {
+                        switch(powerupType)
+                        {
+                            case PowerupType.MultiBall:
+                                multiBallCollided = true;
+                                break;
+                            case PowerupType.StackPaddle:
+                                stackedPaddleCollided = true;
+                                break;
+                            case PowerupType.WidePaddle:
+                                widePaddleColiided = true;
+                                break;
+                        }
                         destroyMe = true;
                     }
                     if(sprite.CollisionLayer == CollisionLayer.Destroy)
                     {
                         destroyMe = true;
                     }
-                    
                 }
-
             }
+            EnablePowerups();
         }
 
         protected override void SetSpriteSource()
@@ -68,6 +82,27 @@ namespace GameObjects
                 default:
                     spriteSource = new Rect(0, 0, 0, 0);
                     break;
+            }
+        }
+
+        private void EnablePowerups()
+        {
+            if(multiBallCollided)
+            {
+                gameManager.MultiBall();
+                multiBallCollided = false;
+            }
+
+            if(stackedPaddleCollided)
+            {
+                gameManager.StackedPaddle();
+                stackedPaddleCollided = false;
+            }
+
+            if(widePaddleColiided)
+            {
+                gameManager.WidePaddle();
+                widePaddleColiided = false;
             }
         }
     }
