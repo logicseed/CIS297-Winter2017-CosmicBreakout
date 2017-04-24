@@ -23,6 +23,16 @@ namespace CosmicBreakout
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        public List<int> HighScoreList;
+
+     /*   public static MainPage Instance { get { return Nested.instance; } }
+        private class Nested
+        {
+            // Explicit static constructor to tell C# compiler not to mark type as beforefieldinit
+            static Nested() {}
+            internal static readonly MainPage instance = new MainPage();
+        }*/
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -38,6 +48,11 @@ namespace CosmicBreakout
         private void GamePadTest_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(GamePadTest));
+        }
+
+        private void HighScores_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(HighScores));
         }
     }
 }

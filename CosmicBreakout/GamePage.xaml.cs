@@ -28,6 +28,7 @@ namespace CosmicBreakout
         public GamePage()
         {
             this.InitializeComponent();
+            gameOverFlag = false;
         }
 
         /// <summary>
@@ -75,8 +76,15 @@ namespace CosmicBreakout
                 }
             }
             gameManager.Update();
-            if(gameManager.gameOver)
+            if (gameManager.gameOver)
             {
+                if (!gameOverFlag)
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                       () => {((App)Application.Current).HighScoreData.sortedScoreData.Add(gameManager.score,"blah"); });
+
+                gameOverFlag = true;
+                
+
                 CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                        () => { Frame.Navigate(typeof(MainPage)); });
             }
@@ -87,6 +95,7 @@ namespace CosmicBreakout
             });
         }
 
+        private bool gameOverFlag;
 
         /// <summary>
         /// Primary graphics loop. Called 60 times per second.

@@ -30,7 +30,10 @@ namespace CosmicBreakout
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            HighScoreData = new ScoreData();
         }
+        public ScoreData HighScoreData;
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
