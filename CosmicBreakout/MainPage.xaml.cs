@@ -27,7 +27,7 @@ namespace CosmicBreakout
         {
             this.InitializeComponent();
             ApplicationView view = ApplicationView.GetForCurrentView();
-            //view.TryEnterFullScreenMode();
+            view.TryEnterFullScreenMode();
         }
 
         private void StartGame_Click(object sender, RoutedEventArgs e)
@@ -35,9 +35,5 @@ namespace CosmicBreakout
             Frame.Navigate(typeof(GamePage));
         }
 
-        private void GamePadTest_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(GamePadTest));
-        }
     }
 }

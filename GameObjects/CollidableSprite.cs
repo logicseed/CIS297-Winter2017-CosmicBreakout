@@ -14,7 +14,7 @@ namespace GameObjects
         public CollisionLayer CollisionLayer { get => collisionLayer; protected set => collisionLayer = value; }
 
         public CollidableSprite(GameManager gameManager, Rect bounds, CollisionLayer collisionLayer)
-            : base(gameManager, new Point(bounds.X, bounds.Y))
+            : base(gameManager, new Point(bounds.X, bounds.Y), new Size(bounds.Width, bounds.Height))
         {
             this.bounds = bounds;
             this.collisionLayer = collisionLayer;

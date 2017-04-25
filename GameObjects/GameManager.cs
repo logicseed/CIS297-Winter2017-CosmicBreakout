@@ -18,7 +18,18 @@ namespace GameObjects
         public int score = 0;
         public bool gameOver = false;
         private int blockTicks = 0;
+        private int stackTicks = 0;
+        private int wideTicks = 0;
+        private bool isPaddleWide = false;
+        private bool isPaddleStacked = false;
+
         private const int MAX_BLOCK_TICKS = 900;
+        private const int RANDOM_SEED = 23;
+        private const float BALL_SPEED = 6f;
+        private const float PADDLE_SPEED = 10f;
+        private const float POWERUP_SPEED = 3f;
+        private const int STACK_TICKS = 300;
+        private const int WIDE_TICKS = 300;
 
         private List<Wall> walls;
         private List<Ball> balls;
@@ -40,52 +51,61 @@ namespace GameObjects
 
         public GameManager(CanvasBitmap background, CanvasBitmap spriteSheet)
         {
-            this.random = new Random(23);
+            this.random = new Random(RANDOM_SEED);
             this.background = background;
             this.spriteSheet = spriteSheet;
 
+            InitializeCollections();
+
             BuildWalls();
             BuildBounds();
-            balls = new List<Ball>();
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
+            MultiBall();
+            SpawnPaddle();
+            BuildBlockRow();
+            BuildBlockRow();
+            BuildBlockRow();
+            BuildBlockRow();
+        }
 
+        private void InitializeCollections()
+        {
+            walls = new List<Wall>();
+            screenBounds = new List<Destroy>();
+            blockBounds = new List<MaxBlocks>();
             paddles = new List<Paddle>();
-            paddles.Add(new Paddle(this, 5f, new Rect(64,462,832,48)));
-
+            balls = new List<Ball>();
             blocks = new List<Block>();
-            BuildBlockRow();
-            BuildBlockRow();
-            BuildBlockRow();
-            BuildBlockRow();
-
             powerups = new List<Powerup>();
+        }
+
+        private void SpawnPaddle(bool isStack = false)
+        {
+            if (paddles.Count >= 2) return;
+
+            if (isStack)
+            {
+                paddles.Add(new Paddle(this, PADDLE_SPEED, GameSprite.PaddlePathStacked));
+                paddles.Last().MakeStack(new Point(paddles[0].Bounds.X, paddles[0].Bounds.X));
+            }
+            else
+            {
+                paddles.Add(new Paddle(this, PADDLE_SPEED, GameSprite.PaddlePathPrimary));
+            }
         }
 
         private void BuildWalls()
         {
-            walls = new List<Wall>();
+            
            
-            walls.Add(new Wall(this, WallSide.Top, new Rect(48, 30, 864, 16)));
-            //walls.Add(new Wall(this, WallSide.Bottom, new Rect(48, 510, 864, 16)));
-            walls.Add(new Wall(this, WallSide.Left, new Rect(48, 46, 16, 464)));
-            walls.Add(new Wall(this, WallSide.Right, new Rect(896, 46, 16, 464)));
+            walls.Add(new Wall(this, WallSide.Top, new Rect(GameSprite.WallTopLocation, GameSprite.WallTopSize)));
+            walls.Add(new Wall(this, WallSide.Left, new Rect(GameSprite.WallSideLeftLocation, GameSprite.WallSideSize)));
+            walls.Add(new Wall(this, WallSide.Right, new Rect(GameSprite.WallSideRightLocation, GameSprite.WallSideSize)));
         }
 
         private void BuildBounds()
         {
-            screenBounds = new List<Destroy>();
-            blockBounds = new List<MaxBlocks>();
-
-            screenBounds.Add(new Destroy(this, new Rect(48, 530, 960, 16)));
-            blockBounds.Add(new MaxBlocks(this, new Rect(48, 400, 864, 16)));
+            screenBounds.Add(new Destroy(this, new Rect(96, 1060, 1920, 16)));
+            blockBounds.Add(new MaxBlocks(this, new Rect(96, 800, 1920, 16)));
         }
 
         private void BuildBlockRow()
@@ -96,7 +116,7 @@ namespace GameObjects
             // Create left side
             for (int i = 0; i < 7; i++)
             {
-                var location = new Point(112 + (i * 48), 94);
+                var location = new Point(224 + (i * 96), 188);
                 int rand = random.Next(1, 4);
 
                 switch (rand)
@@ -115,7 +135,7 @@ namespace GameObjects
             // Create right side
             for (int i = 0; i < 7; i++)
             {
-                var location = new Point(512 + (i * 48), 94);
+                var location = new Point(1024 + (i * 96), 188);
                 int rand = random.Next(1, 4);
 
                 switch (rand)
@@ -158,6 +178,9 @@ namespace GameObjects
                 blockTicks = 0;
                 BuildBlockRow();
             }
+
+            CheckStackPaddle();
+            CheckWidePaddle();
         }
 
         private void CalculateScore(List<Block> blocks)
@@ -192,7 +215,11 @@ namespace GameObjects
 
             foreach (var index in indexesToDelete)
             {
-                gameObjects.RemoveAt(index);
+                try
+                {
+                    gameObjects.RemoveAt(index);
+                }
+                catch { }
             }
         }
 
@@ -200,13 +227,13 @@ namespace GameObjects
         {
             if (powerupType != PowerupType.None)
             {
-                powerups.Add(new Powerup(this, location, 1f, powerupType, 360));
+                powerups.Add(new Powerup(this, location, POWERUP_SPEED, powerupType, 360));
             }
         }
 
         public void Draw(CanvasSpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(background, new Rect(0, 0, 960, 540));
+            spriteBatch.Draw(background, GameSprite.Background);
             foreach (var wall in walls) { wall.Draw(spriteBatch); }
             foreach (var ball in balls) { ball.Draw(spriteBatch); }
             foreach (var paddle in paddles) { paddle.Draw(spriteBatch); }
@@ -222,24 +249,69 @@ namespace GameObjects
 
         public void MultiBall()
         {
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
-            balls.Add(new Ball(this, 3f));
+            balls.Add(new Ball(this, BALL_SPEED));
+            balls.Add(new Ball(this, BALL_SPEED));
+            balls.Add(new Ball(this, BALL_SPEED));
+            balls.Add(new Ball(this, BALL_SPEED));
+            balls.Add(new Ball(this, BALL_SPEED));
+            balls.Add(new Ball(this, BALL_SPEED));
+            balls.Add(new Ball(this, BALL_SPEED));
+            balls.Add(new Ball(this, BALL_SPEED));
         }
 
         public void WidePaddle()
         {
+            foreach (var paddle in paddles)
+            {
+                paddle.MakeWide();
+            }
+            isPaddleWide = true;
+            wideTicks = 0;
+        }
 
+        public void CheckWidePaddle()
+        {
+            if (isPaddleWide)
+            {
+                wideTicks++;
+                if (wideTicks >= WIDE_TICKS)
+                {
+                    wideTicks = 0;
+                    isPaddleWide = false;
+                    foreach (var paddle in paddles)
+                    {
+                        paddle.MakeNormal();
+                    }
+                }
+            }
         }
 
         public void StackedPaddle()
         {
+            SpawnPaddle(true);
+            isPaddleStacked = true;
+            stackTicks = 0;
+            if (isPaddleWide)
+            {
+                foreach (var paddle in paddles)
+                {
+                    paddle.MakeWide();
+                }
+            }
+        }
 
+        public void CheckStackPaddle()
+        {
+            if (isPaddleStacked)
+            {
+                stackTicks++;
+                if (stackTicks >= STACK_TICKS)
+                {
+                    stackTicks = 0;
+                    isPaddleStacked = false;
+                    paddles.RemoveAt(1);
+                }
+            }
         }
     }
 }

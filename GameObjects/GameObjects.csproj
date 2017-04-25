@@ -121,6 +121,8 @@
     <Compile Include="PowerupType.cs" />
     <Compile Include="Sprite.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpriteSheet.cs" />
+    <Compile Include="GameSprite.cs" />
     <Compile Include="Wall.cs" />
     <EmbeddedResource Include="Properties\GameObjects.rd.xml" />
   </ItemGroup>
