@@ -34,6 +34,8 @@ namespace CosmicBreakout
         public ObservableCollection<ScoreRecord> ScoreList = new ObservableCollection<ScoreRecord>();
         public void populateData()
         {
+            if (((App)Application.Current).HighScoreData.sortedScoreData.Count() > 1)
+                ((App)Application.Current).HighScoreData.sortedScoreData.Remove(0);
             for (int i = 0; i < ((App)Application.Current).HighScoreData.sortedScoreData.Count(); i++)
             {
                 ScoreList.Add(new ScoreRecord
@@ -42,8 +44,6 @@ namespace CosmicBreakout
                     Score = ((App)Application.Current).HighScoreData.sortedScoreData.ElementAt(i).Key.ToString()
             });
 
-                System.Diagnostics.Debug.WriteLine("Player = ", ((App)Application.Current).HighScoreData.sortedScoreData.ElementAt(i).Value,
-                                " Score = ", ((App)Application.Current).HighScoreData.sortedScoreData.ElementAt(i).Key.ToString());
             }
 
             high_scores.ItemsSource = ScoreList;
