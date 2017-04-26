@@ -3,8 +3,6 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Xaml;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Gaming.Input;
@@ -12,7 +10,6 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace CosmicBreakout
 {
@@ -52,25 +49,6 @@ namespace CosmicBreakout
             gameManager = new GameManager(background, spriteSheet);
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            // Populate the list of users.
-            IReadOnlyList<User> users = await User.FindAllAsync();
-            int userNumber = 1;
-            foreach (User user in users)
-            {
-                string displayName = (string)await user.GetPropertyAsync(KnownUserProperties.DisplayName);
-
-                // Choose a generic name if we do not have access to the actual name.
-                if (String.IsNullOrEmpty(displayName))
-                {
-                    displayName = "User #" + userNumber.ToString();
-                    userNumber++;
-                }
-                currentUser = displayName;
-            }
-        }
-
         /// <summary>
         /// Primary game logic loop. Called at a fixed interval.
         /// </summary>
@@ -101,10 +79,9 @@ namespace CosmicBreakout
             if (gameManager.gameOver)
             {
                 if (!gameOverFlag)
-                {
-                    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                           () => { ((App)Application.Current).HighScoreData.sortedScoreData.Add(gameManager.score, currentUser); });
-                }
+                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                       () => {((App)Application.Current).HighScoreData.sortedScoreData.Add(gameManager.score,"blah"); });
+
                 gameOverFlag = true;
                 
 
@@ -119,7 +96,6 @@ namespace CosmicBreakout
         }
 
         private bool gameOverFlag;
-        public string currentUser;
 
         /// <summary>
         /// Primary graphics loop. Called 60 times per second.
@@ -190,7 +166,6 @@ namespace CosmicBreakout
             Gamepad.GamepadAdded += Gamepad_GamepadAdded;
             Gamepad.GamepadRemoved += Gamepad_GamepadRemoved;
             Window.Current.CoreWindow.KeyDown += GameCanvas_KeyDown;
-
         }
 
         /// <summary>

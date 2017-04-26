@@ -9,24 +9,22 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Image HorizontalAlignment="Left" Height="540" VerticalAlignment="Top" Width="960" Source="Images/Background.png"/>
+        <Button x:Name="BackToMain" Content="Main Page" HorizontalAlignment="Left" Margin="754,396,0,0" VerticalAlignment="Top" Height="73" Width="167" Foreground="White" Background="#33B4B4B4" BorderBrush="#FFDC7E0C" Click="MainPage_Click"/>
         <ListView Name="high_scores" Margin="10,-9.938,302.5,9.938" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
             <ListView.RenderTransform>
                 <CompositeTransform SkewY="0.672" TranslateY="3.738"/>
             </ListView.RenderTransform>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
-                        <StackPanel Orientation="Horizontal" Margin="10,10,0,0">
-                            <TextBlock Text="Score: " Foreground="White" Width="50"></TextBlock>
-                            <TextBlock Text="{Binding Score}" Foreground="White" Width="50"></TextBlock>
-                            <TextBlock Text="Player: " Foreground="White" Width="50"></TextBlock>
+                    <StackPanel Orientation="Horizontal" Margin="10,20,0,0">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Score}" Foreground="White"></TextBlock>
                             <TextBlock Text="{Binding Player}" Foreground="White"></TextBlock>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button x:Name="BackToMain" Content="Main Page" HorizontalAlignment="Left" Margin="754,396,0,0" VerticalAlignment="Top" Height="73" Width="167" Foreground="White" Background="#33B4B4B4" BorderBrush="#FFDC7E0C" Click="MainPage_Click"/>
     </Grid>
 
 
