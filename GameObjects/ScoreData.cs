@@ -11,11 +11,11 @@ namespace CosmicBreakout
 
         public ScoreData()
         {
-            sortedScoreData = new SortedDictionary<int,string>();
-            sortedScoreData.Add(0, "No Scores Recorded Yet");
+            datalist = new List<KeyValuePair<int,string>>();
+            datalist.Add(new KeyValuePair<int, string>(0, "No Scores Recorded Yet"));
         }
 
-        public SortedDictionary<int, string> sortedScoreData;
+        public List<KeyValuePair<int, string>> datalist;
     }
 
 

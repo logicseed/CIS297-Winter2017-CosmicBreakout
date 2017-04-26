@@ -103,7 +103,7 @@ namespace CosmicBreakout
                 if (!gameOverFlag)
                 {
                     CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                           () => { ((App)Application.Current).HighScoreData.sortedScoreData.Add(gameManager.score, currentUser); });
+                           () => { ((App)Application.Current).HighScoreData.datalist.Add(new KeyValuePair<int,string>(gameManager.score, currentUser)); });
                 }
                 gameOverFlag = true;
                 
