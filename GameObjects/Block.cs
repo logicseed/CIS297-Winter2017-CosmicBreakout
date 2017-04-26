@@ -8,6 +8,8 @@ namespace GameObjects
 {
     public class Block : CollidableSprite
     {
+        private const double POWERUP_CHANCE = 1.0;
+
         private BlockType type;
         private int collisionsRemaining;
         private PowerupType powerupType = PowerupType.None;
@@ -17,14 +19,14 @@ namespace GameObjects
         public PowerupType PowerupType { get => powerupType; set => powerupType = value; }
 
         public Block(GameManager gameManager, Point location, int collisionsRemaining, BlockType type)
-            : base(gameManager, new Rect(location.X, location.Y, 48, 16), CollisionLayer.Block)
+            : base(gameManager, new Rect(location, GameSprite.BlockSize), CollisionLayer.Block)
         {
             this.type = type;
             this.collisionsRemaining = collisionsRemaining;
 
-            if ((gameManager.Random.NextDouble() < 0.2))
+            if ((gameManager.Random.NextDouble() < POWERUP_CHANCE))
             {
-                powerupType = (PowerupType)gameManager.Random.Next(1, 4);
+                powerupType = (PowerupType)gameManager.Random.Next(1, (int)PowerupType.COUNT);
             }
 
             SetSpriteSource();
@@ -41,13 +43,13 @@ namespace GameObjects
             switch (collisionsRemaining)
             {
                 case 2:
-                    spriteSource = new Rect(64, 32, 48, 16);
+                    spriteSource = new Rect(SpriteSheet.BlockDoubleLocation, SpriteSheet.BlockSize);
                     break;
                 case 3:
-                    spriteSource = new Rect(64, 64, 48, 16);
+                    spriteSource = new Rect(SpriteSheet.BlockTripleLocation, SpriteSheet.BlockSize);
                     break;
                 default:
-                    spriteSource = new Rect(64, 48, 48, 16);
+                    spriteSource = new Rect(SpriteSheet.BlockSingleLocation, SpriteSheet.BlockSize);
                     break;
             }
         }

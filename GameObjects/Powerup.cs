@@ -12,12 +12,9 @@ namespace GameObjects
     public class Powerup : MoveableSprite
     {
         private PowerupType powerupType;
-        private bool multiBallCollided = false;
-        private bool stackedPaddleCollided = false;
-        private bool widePaddleColiided = false;
  
         public Powerup(GameManager gameManager, Point location, float maximumSpeed, PowerupType powerupType, int ticksToLive)
-            : base(gameManager, new Rect(location.X, location.Y, 48, 16), CollisionLayer.Powerup, maximumSpeed)
+            : base(gameManager, new Rect(location, GameSprite.PowerupSize), CollisionLayer.Powerup, maximumSpeed)
         {
             this.powerupType = powerupType;
             SetSpriteSource();
@@ -27,11 +24,31 @@ namespace GameObjects
         public override void Update()
         {
             base.Update();
-            CheckCollisions(gameManager.Paddles);
-            CheckCollisions(gameManager.ScreenBounds);
+
+            if (CheckCollisions(gameManager.Paddles))
+            {
+                switch (powerupType)
+                {
+                    case PowerupType.WidePaddle:
+                        gameManager.WidePaddle();
+                        break;
+                    case PowerupType.StackPaddle:
+                        gameManager.StackedPaddle();
+                        break;
+                    case PowerupType.MultiBall:
+                        gameManager.MultiBall();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                CheckCollisions(gameManager.ScreenBounds);
+            }
         }
 
-        protected void CheckCollisions<T>(List<T> sprites) where T : CollidableSprite
+        protected bool CheckCollisions<T>(List<T> sprites) where T : CollidableSprite
         {
             foreach (var sprite in sprites)
             {
@@ -39,31 +56,11 @@ namespace GameObjects
                 collisionBounds.Intersect(sprite.Bounds);
                 if (!collisionBounds.IsEmpty)
                 {
-                    // Collided on any side
-                    if (collisionBounds.Center().X != bounds.Center().X || 
-                        collisionBounds.Center().Y != bounds.Center().Y)
-                    {
-                        switch(powerupType)
-                        {
-                            case PowerupType.MultiBall:
-                                multiBallCollided = true;
-                                break;
-                            case PowerupType.StackPaddle:
-                                stackedPaddleCollided = true;
-                                break;
-                            case PowerupType.WidePaddle:
-                                widePaddleColiided = true;
-                                break;
-                        }
-                        destroyMe = true;
-                    }
-                    if(sprite.CollisionLayer == CollisionLayer.Destroy)
-                    {
-                        destroyMe = true;
-                    }
+                    destroyMe = true;
+                    return true;
                 }
             }
-            EnablePowerups();
+            return false;
         }
 
         protected override void SetSpriteSource()
@@ -71,38 +68,17 @@ namespace GameObjects
             switch (powerupType)
             {
                 case PowerupType.WidePaddle:
-                    spriteSource = new Rect(16, 32, 48, 16);
+                    spriteSource = new Rect(SpriteSheet.PowerupWideLocation, SpriteSheet.PowerupWideSize);
                     break;
                 case PowerupType.StackPaddle:
-                    spriteSource = new Rect(16, 48, 48, 16);
+                    spriteSource = new Rect(SpriteSheet.PowerupStackLocation, SpriteSheet.PowerupStackSize);
                     break;
                 case PowerupType.MultiBall:
-                    spriteSource = new Rect(16, 64, 48, 16);
+                    spriteSource = new Rect(SpriteSheet.PowerupMultiLocation, SpriteSheet.PowerupMultiSize);
                     break;
                 default:
                     spriteSource = new Rect(0, 0, 0, 0);
                     break;
-            }
-        }
-
-        private void EnablePowerups()
-        {
-            if(multiBallCollided)
-            {
-                gameManager.MultiBall();
-                multiBallCollided = false;
-            }
-
-            if(stackedPaddleCollided)
-            {
-                gameManager.StackedPaddle();
-                stackedPaddleCollided = false;
-            }
-
-            if(widePaddleColiided)
-            {
-                gameManager.WidePaddle();
-                widePaddleColiided = false;
             }
         }
     }

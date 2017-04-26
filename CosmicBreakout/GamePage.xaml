@@ -6,11 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
-    mc:Ignorable="d" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+    mc:Ignorable="d" Loaded="Page_Loaded" Unloaded="Page_Unloaded" Width="1920" Height="1080"
+    RequestedTheme="Dark">
 
     <Grid Background="Black">
-        <canvas:CanvasAnimatedControl x:Name="GameCanvas" ClearColor="Black" Draw="GameCanvas_Draw" CreateResources="GameCanvas_CreateResources" Width="960" Height="540" Update="GameCanvas_Update" IsFixedTimeStep="True"/>
-        <TextBlock Text="Score: " HorizontalAlignment="Left" Margin="50,25,0,0" VerticalAlignment="Top" Height="25" Width="50" FontSize="15" Foreground="White"/>
-        <TextBlock x:Name="ScoreBox" HorizontalAlignment="Left" Margin="95,25,0,0" VerticalAlignment="Top" Height="25" Width="50" FontSize="15" Foreground="White"/>
+        <canvas:CanvasAnimatedControl x:Name="GameCanvas" ClearColor="Black" Draw="GameCanvas_Draw" CreateResources="GameCanvas_CreateResources" Width="1920" Height="1080" Update="GameCanvas_Update" IsFixedTimeStep="True"/>
+        <TextBlock Text="Score: " HorizontalAlignment="Left" Margin="50,15,0,0" VerticalAlignment="Top" Height="69" Width="95" FontSize="36" Foreground="White"/>
+        <TextBlock x:Name="ScoreBox" HorizontalAlignment="Left" Margin="150,15,0,0" VerticalAlignment="Top" Height="69" Width="251" FontSize="36" Foreground="White"/>
     </Grid>
 </Page>

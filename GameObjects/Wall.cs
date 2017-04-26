@@ -1,12 +1,5 @@
 ﻿using Microsoft.Graphics.Canvas;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
-using Windows.UI.Xaml.Controls;
 
 namespace GameObjects
 {
@@ -31,15 +24,15 @@ namespace GameObjects
             {
                 case WallSide.Top:
                 case WallSide.Bottom:
-                    spriteSource = new Rect(32, 16, 48, 16);
-                    wallCapASource = new Rect(16, 16, 16, 16);
-                    wallCapBSource = new Rect(80, 16, 16, 16);
+                    spriteSource = new Rect(SpriteSheet.WallTopMiddleLocation, SpriteSheet.WallTopMiddleSize);
+                    wallCapASource = new Rect(SpriteSheet.WallTopLeftLocation, SpriteSheet.WallTopLeftSize);
+                    wallCapBSource = new Rect(SpriteSheet.WallTopRightLocation, SpriteSheet.WallTopRightSize);
                     break;
                 case WallSide.Left:
                 case WallSide.Right:
-                    spriteSource = new Rect(0, 16, 16, 48);
-                    wallCapASource = new Rect(0, 64, 16, 16);
-                    wallCapBSource = new Rect(0, 64, 16, 16);
+                    spriteSource = new Rect(SpriteSheet.WallSideMiddleLocation, SpriteSheet.WallSideMiddleSize);
+                    wallCapASource = new Rect(SpriteSheet.WallSideBottomLocation, SpriteSheet.WallSideBottomSize);
+                    wallCapBSource = new Rect(SpriteSheet.WallSideBottomLocation, SpriteSheet.WallSideBottomSize);
                     break;
             }
         }
@@ -57,34 +50,25 @@ namespace GameObjects
             {
                 case WallSide.Top:
                     spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
-                        new Rect(bounds.X + 16, bounds.Y, bounds.Width - 32, bounds.Height),
+                        new Rect(bounds.X + GameSprite.WallTopCapSize.Width, bounds.Y, bounds.Width - GameSprite.WallTopCapSize.Width, bounds.Height),
                         spriteSource);
                     spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
-                        new Rect(bounds.X, bounds.Y, 16, 16),
+                        new Rect(bounds.X, bounds.Y, GameSprite.WallTopCapSize.Width, GameSprite.WallTopCapSize.Height),
                         wallCapASource);
                     spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
-                        new Rect(bounds.X + (bounds.Width - 16), bounds.Y, 16, 16),
+                        new Rect(bounds.X + (bounds.Width - GameSprite.WallTopCapSize.Width), bounds.Y, GameSprite.WallTopCapSize.Width, GameSprite.WallTopCapSize.Height),
                         wallCapBSource);
-                    break;
-                case WallSide.Bottom:
-                    spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
-                        new Rect(bounds.X + 16, bounds.Y, bounds.Width - 32, bounds.Height),
-                        spriteSource);//, Vector4.One, CanvasSpriteFlip.Vertical);
-                    spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
-                        new Rect(bounds.X, bounds.Y, 16, 16),
-                        wallCapASource);//, new Vector4(0.5f, 0.5f, 0.5f, 1), CanvasSpriteFlip.Vertical);
-                    spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
-                        new Rect(bounds.X + (bounds.Width - 16), bounds.Y, 16, 16),
-                        wallCapBSource);//, new Vector4(0.5f, 0.5f, 0.5f, 1), CanvasSpriteFlip.Vertical);
                     break;
                 case WallSide.Left:
                 case WallSide.Right:
                     spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
-                        new Rect(bounds.X, bounds.Y, bounds.Width, bounds.Height - 16),
+                        new Rect(bounds.X, bounds.Y, bounds.Width, bounds.Height - GameSprite.WallSideCapSize.Height),
                         spriteSource);
                     spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
-                        new Rect(bounds.X, bounds.Y + (bounds.Height - 16), 16, 16),
+                        new Rect(bounds.X, bounds.Y + (bounds.Height - GameSprite.WallSideCapSize.Height), GameSprite.WallSideCapSize.Width, GameSprite.WallSideCapSize.Height),
                         wallCapASource);
+                    break;
+                default:
                     break;
             }
         }

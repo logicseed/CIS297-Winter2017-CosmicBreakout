@@ -13,7 +13,7 @@ namespace GameObjects
     public class Ball : MoveableSprite
     {
         public Ball(GameManager gameManager, float maximumSpeed)
-            : base(gameManager, new Rect(462, 262, 16, 16), CollisionLayer.Ball, maximumSpeed)
+            : base(gameManager, new Rect(GameSprite.BallLocation, GameSprite.BallSize), CollisionLayer.Ball, maximumSpeed)
         {
             var rads = gameManager.Random.NextDouble() * 2 * Math.PI;
 
@@ -91,7 +91,7 @@ namespace GameObjects
 
         protected override void SetSpriteSource()
         {
-            spriteSource = new Rect(0,0,16,16);
+            spriteSource = new Rect(SpriteSheet.BallLocation, SpriteSheet.BallSize);
         }
     }
 }

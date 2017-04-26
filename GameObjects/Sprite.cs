@@ -16,15 +16,17 @@ namespace GameObjects
 
         protected Rect spriteSource;
         protected Point location;
+        protected Size size;
         protected bool destroyMe;
 
         public Point Location { get => location; protected set => location = value; }
         public bool DestroyMe { get => destroyMe; protected set => destroyMe = value; }
 
-        public Sprite(GameManager gameManager, Point location)
+        public Sprite(GameManager gameManager, Point location, Size size)
         {
             this.gameManager = gameManager;
             this.location = location;
+            this.size = size;
             SetSpriteSource();
         }
 
@@ -36,7 +38,7 @@ namespace GameObjects
         public virtual void Draw(CanvasSpriteBatch spriteBatch)
         {
             spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
-                        new Rect(location.X, location.Y, spriteSource.Width, spriteSource.Height),
+                        new Rect(location.X, location.Y, size.Width, size.Height),
                         spriteSource);
         }
 

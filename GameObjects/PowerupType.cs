@@ -5,6 +5,7 @@
         None,
         WidePaddle,
         StackPaddle,
-        MultiBall
+        MultiBall,
+        COUNT
     }
 }
