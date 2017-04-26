@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls;
+using System;
 
 namespace GameObjects
 {
-    public abstract class CollidableSprite : Sprite
+    public class CollidableSprite : Sprite
     {
         protected Rect bounds;
         protected CollisionLayer collisionLayer;
@@ -25,6 +26,11 @@ namespace GameObjects
             base.Update();
             bounds.X = location.X;
             bounds.Y = location.Y;
+        }
+
+        protected override void SetSpriteSource()
+        {
+            // No sprite
         }
     }
 }

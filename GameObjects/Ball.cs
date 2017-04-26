@@ -44,11 +44,13 @@ namespace GameObjects
                 if (!collisionBounds.IsEmpty)
                 {
                     hasCollided = true;
+                    var hasRebounded = false;
 
                     // Collided on left or right
                     if (collisionBounds.Center().X != bounds.Center().X)
                     {
                         velocity.X *= -1;
+                        hasRebounded = true;
                         // Move out of collider
                         if (collisionBounds.Center().X < bounds.Center().X
                             && sprite.CollisionLayer != CollisionLayer.Paddle)
@@ -63,7 +65,18 @@ namespace GameObjects
                     // Collided on top or bottom
                     if (collisionBounds.Center().Y != bounds.Center().Y)
                     {
-                        velocity.Y *= -1;
+                        if (sprite.CollisionLayer == CollisionLayer.Paddle)
+                        {
+                            var magnitude = velocity.Length();
+                            var angle = (Math.PI / 180) * (90 - (((bounds.Center().X - sprite.Bounds.Center().X)/(0.5 * sprite.Bounds.Width)) * 80));
+                            velocity.X = (float)Math.Cos(angle) * magnitude;
+                            velocity.Y = -(float)Math.Sin(angle) * magnitude;
+                        }
+                        else
+                        {
+                            if (!hasRebounded) velocity.Y *= -1;
+                        }
+                        
                         // Move out of collider
                         if (collisionBounds.Center().Y < bounds.Center().Y
                              && sprite.CollisionLayer != CollisionLayer.Paddle)
