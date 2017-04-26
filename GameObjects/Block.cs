@@ -8,7 +8,7 @@ namespace GameObjects
 {
     public class Block : CollidableSprite
     {
-        private const double POWERUP_CHANCE = 1.0;
+        private const double POWERUP_CHANCE = 0.3;
 
         private BlockType type;
         private int collisionsRemaining;

@@ -36,8 +36,8 @@ namespace GameObjects
         private List<Paddle> paddles;
         private List<Block> blocks;
         private List<Powerup> powerups;
-        private List<Destroy> screenBounds;
-        private List<MaxBlocks> blockBounds;
+        private List<CollidableSprite> screenBounds;
+        private List<CollidableSprite> blockBounds;
 
         public CanvasBitmap SpriteSheet { get => spriteSheet; set => spriteSheet = value; }
         public List<Wall> Walls { get => walls; set => walls = value; }
@@ -46,8 +46,8 @@ namespace GameObjects
         public List<Paddle> Paddles { get => paddles; set => paddles = value; }
         public List<Block> Blocks { get => blocks; set => blocks = value; }
         public List<Powerup> Powerups { get => powerups; set => powerups = value; }
-        public List<Destroy> ScreenBounds { get => screenBounds; set => screenBounds = value; }
-        public List<MaxBlocks> BlockBounds { get => blockBounds; set => blockBounds = value; }
+        public List<CollidableSprite> ScreenBounds { get => screenBounds; set => screenBounds = value; }
+        public List<CollidableSprite> BlockBounds { get => blockBounds; set => blockBounds = value; }
 
         public GameManager(CanvasBitmap background, CanvasBitmap spriteSheet)
         {
@@ -70,8 +70,8 @@ namespace GameObjects
         private void InitializeCollections()
         {
             walls = new List<Wall>();
-            screenBounds = new List<Destroy>();
-            blockBounds = new List<MaxBlocks>();
+            screenBounds = new List<CollidableSprite>();
+            blockBounds = new List<CollidableSprite>();
             paddles = new List<Paddle>();
             balls = new List<Ball>();
             blocks = new List<Block>();
@@ -95,8 +95,8 @@ namespace GameObjects
 
         private void BuildWalls()
         {
-            
-           
+
+
             walls.Add(new Wall(this, WallSide.Top, new Rect(GameSprite.WallTopLocation, GameSprite.WallTopSize)));
             walls.Add(new Wall(this, WallSide.Left, new Rect(GameSprite.WallSideLeftLocation, GameSprite.WallSideSize)));
             walls.Add(new Wall(this, WallSide.Right, new Rect(GameSprite.WallSideRightLocation, GameSprite.WallSideSize)));
@@ -104,8 +104,8 @@ namespace GameObjects
 
         private void BuildBounds()
         {
-            screenBounds.Add(new Destroy(this, new Rect(96, 1060, 1920, 16)));
-            blockBounds.Add(new MaxBlocks(this, new Rect(96, 800, 1920, 16)));
+            screenBounds.Add(new CollidableSprite(this, new Rect(96, 1060, 1920, 16), CollisionLayer.Destroy));
+            blockBounds.Add(new CollidableSprite(this, new Rect(96, 800, 1920, 16), CollisionLayer.MaxBlocks));
         }
 
         private void BuildBlockRow()
@@ -172,7 +172,7 @@ namespace GameObjects
             foreach (var powerup in powerups) { powerup.Update(); }
 
             // Create next row of blocks
-            blockTicks++;
+            blockTicks += (balls.Count / 6) + 1;
             if (blockTicks >= MAX_BLOCK_TICKS)
             {
                 blockTicks = 0;
@@ -207,19 +207,19 @@ namespace GameObjects
 
         private void DestroyGameObjects<T>(List<T> gameObjects) where T : Sprite
         {
-            var indexesToDelete = new List<int>();
-            foreach (var gameObject in gameObjects)
+            var thisLock = new Object();
+            lock (thisLock)
             {
-                if (gameObject.DestroyMe) indexesToDelete.Add(gameObjects.IndexOf(gameObject));
-            }
-
-            foreach (var index in indexesToDelete)
-            {
-                try
+                var indexesToDelete = new List<int>();
+                foreach (var gameObject in gameObjects)
                 {
-                    gameObjects.RemoveAt(index);
+                    if (gameObject.DestroyMe) indexesToDelete.Add(gameObjects.IndexOf(gameObject));
                 }
-                catch { }
+
+                foreach (var index in indexesToDelete)
+                {
+                    if (index < gameObjects.Count) gameObjects.RemoveAt(index);
+                }
             }
         }
 
@@ -227,7 +227,7 @@ namespace GameObjects
         {
             if (powerupType != PowerupType.None)
             {
-                powerups.Add(new Powerup(this, location, POWERUP_SPEED, powerupType, 360));
+                powerups.Add(new Powerup(this, location, POWERUP_SPEED, powerupType));
             }
         }
 

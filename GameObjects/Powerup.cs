@@ -13,7 +13,7 @@ namespace GameObjects
     {
         private PowerupType powerupType;
  
-        public Powerup(GameManager gameManager, Point location, float maximumSpeed, PowerupType powerupType, int ticksToLive)
+        public Powerup(GameManager gameManager, Point location, float maximumSpeed, PowerupType powerupType)
             : base(gameManager, new Rect(location, GameSprite.PowerupSize), CollisionLayer.Powerup, maximumSpeed)
         {
             this.powerupType = powerupType;
