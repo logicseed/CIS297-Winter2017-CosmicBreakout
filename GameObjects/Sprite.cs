@@ -20,7 +20,7 @@ namespace GameObjects
         protected bool destroyMe;
 
         public Point Location { get => location; protected set => location = value; }
-        public bool DestroyMe { get => destroyMe; protected set => destroyMe = value; }
+        public bool DestroyMe { get => destroyMe; set => destroyMe = value; }
 
         public Sprite(GameManager gameManager, Point location, Size size)
         {

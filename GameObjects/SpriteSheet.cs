@@ -24,9 +24,9 @@ namespace GameObjects
         public static Size PaddleLeftSize => new Size(16, 16);
 
         public static Point PaddleMiddleLocation => new Point(32, 0);
-        public static Size PaddleMiddleSize => new Size(48, 16);
+        public static Size PaddleMiddleSize => new Size(16, 16);
 
-        public static Point PaddleRightLocation => new Point(80, 0);
+        public static Point PaddleRightLocation => new Point(48, 0);
         public static Size PaddleRightSize => new Size(16, 16);
 
         public static Point PowerupWideLocation => new Point(16, 32);
@@ -37,6 +37,9 @@ namespace GameObjects
 
         public static Point PowerupMultiLocation => new Point(16, 64);
         public static Size PowerupMultiSize => new Size(48, 16);
+
+        public static Point PowerupExplodeLocation => new Point(64, 0);
+        public static Size PowerupExplodeSize => new Size(48, 16);
 
         public static Point WallTopLeftLocation => new Point(16, 16);
         public static Size WallTopLeftSize => new Size(16, 16);

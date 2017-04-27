@@ -12,6 +12,9 @@ namespace GameObjects
 {
     public class Ball : MoveableSprite
     {
+        private bool hasExploded;
+
+        private const float BLOW_RADIUS = 200.0f;
         public Ball(GameManager gameManager, float maximumSpeed)
             : base(gameManager, new Rect(GameSprite.BallLocation, GameSprite.BallSize), CollisionLayer.Ball, maximumSpeed)
         {
@@ -102,9 +105,52 @@ namespace GameObjects
             }
         }
 
+        public override void Draw(CanvasSpriteBatch spriteBatch)
+        {
+            if (hasExploded)
+            {
+                spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
+                        new Rect(
+                            location.X - (BLOW_RADIUS / 2), 
+                            location.Y - (BLOW_RADIUS / 2), 
+                            size.Width + BLOW_RADIUS, 
+                            size.Height + BLOW_RADIUS),
+                        spriteSource);
+                hasExploded = false;
+            }
+            else
+            {
+                spriteBatch.DrawFromSpriteSheet(gameManager.SpriteSheet,
+                        new Rect(location.X, location.Y, size.Width, size.Height),
+                        spriteSource);
+            }
+        }
+
         protected override void SetSpriteSource()
         {
             spriteSource = new Rect(SpriteSheet.BallLocation, SpriteSheet.BallSize);
+        }
+
+        public void Explode()
+        {
+            hasExploded = true;
+            foreach (var block in gameManager.Blocks)
+            {
+                var collisionBounds = new Rect(
+                    bounds.X - (BLOW_RADIUS / 2), 
+                    bounds.Y - (BLOW_RADIUS / 2), 
+                    bounds.Width + BLOW_RADIUS, 
+                    bounds.Height + BLOW_RADIUS);
+
+                collisionBounds.Intersect(block.Bounds);
+                if (!collisionBounds.IsEmpty)
+                {
+                    if (block.CollisionLayer == CollisionLayer.Block)
+                    {
+                        block.DestroyMe = true;
+                    }
+                }
+            }
         }
     }
 }

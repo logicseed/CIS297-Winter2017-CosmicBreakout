@@ -32,6 +32,7 @@ namespace GameObjects
         private const float POWERUP_SPEED = 3f;
         private const int STACK_TICKS = 300;
         private const int WIDE_TICKS = 300;
+        public const int MAX_BALLS = 20;
 
         private List<Wall> walls;
         private List<Ball> balls;
@@ -43,6 +44,8 @@ namespace GameObjects
 
         public CanvasBitmap SpriteSheet { get => spriteSheet; set => spriteSheet = value; }
         public List<Wall> Walls { get => walls; set => walls = value; }
+
+
         public List<Ball> Balls { get => balls; set => balls = value; }
         public Random Random { get => random; set => random = value; }
         public List<Paddle> Paddles { get => paddles; set => paddles = value; }
@@ -182,7 +185,7 @@ namespace GameObjects
             foreach (var powerup in powerups) { powerup.Update(); }
 
             // Create next row of blocks
-            blockTicks += (balls.Count / 6) + 1;
+            blockTicks += (balls.Count / 4) + 1;
             if (blockTicks >= MAX_BLOCK_TICKS)
             {
                 blockTicks = 0;
@@ -321,6 +324,14 @@ namespace GameObjects
                     isPaddleStacked = false;
                     paddles.RemoveAt(1);
                 }
+            }
+        }
+
+        public void Explode()
+        {
+            foreach (var ball in balls)
+            {
+                ball.Explode();
             }
         }
     }

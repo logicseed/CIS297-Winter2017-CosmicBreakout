@@ -6,6 +6,7 @@
         WidePaddle,
         StackPaddle,
         MultiBall,
+        Explode,
         COUNT
     }
 }

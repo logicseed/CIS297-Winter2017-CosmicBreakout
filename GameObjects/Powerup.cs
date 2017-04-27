@@ -36,7 +36,11 @@ namespace GameObjects
                         gameManager.StackedPaddle();
                         break;
                     case PowerupType.MultiBall:
-                        gameManager.MultiBall();
+                        if (gameManager.Balls.Count < GameManager.MAX_BALLS)
+                            gameManager.MultiBall();
+                        break;
+                    case PowerupType.Explode:
+                        gameManager.Explode();
                         break;
                     default:
                         break;
@@ -75,6 +79,9 @@ namespace GameObjects
                     break;
                 case PowerupType.MultiBall:
                     spriteSource = new Rect(SpriteSheet.PowerupMultiLocation, SpriteSheet.PowerupMultiSize);
+                    break;
+                case PowerupType.Explode:
+                    spriteSource = new Rect(SpriteSheet.PowerupExplodeLocation, SpriteSheet.PowerupExplodeSize);
                     break;
                 default:
                     spriteSource = new Rect(0, 0, 0, 0);
