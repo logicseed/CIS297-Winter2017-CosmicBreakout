@@ -255,8 +255,8 @@ namespace GameObjects
             balls.Add(new Ball(this, BALL_SPEED));
             balls.Add(new Ball(this, BALL_SPEED));
             balls.Add(new Ball(this, BALL_SPEED));
-            balls.Add(new Ball(this, BALL_SPEED));
-            balls.Add(new Ball(this, BALL_SPEED));
+            //balls.Add(new Ball(this, BALL_SPEED));
+            //balls.Add(new Ball(this, BALL_SPEED));
         }
 
         public void WidePaddle()
