@@ -97,6 +97,9 @@ namespace CosmicBreakout
                     case GamepadButtons.B:
                         gameManager.WidePaddle();
                         break;
+                    case GamepadButtons.A:
+                        gameManager.Explode();
+                        break;
                     default:
                         break;
                 }
