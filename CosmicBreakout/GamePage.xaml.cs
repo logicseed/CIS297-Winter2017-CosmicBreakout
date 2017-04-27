@@ -56,19 +56,36 @@ namespace CosmicBreakout
         {
             // Populate the list of users.
             IReadOnlyList<User> users = await User.FindAllAsync();
+
+            var current = users.Where(p => p.AuthenticationStatus == UserAuthenticationStatus.LocallyAuthenticated &&
+                                p.Type == UserType.LocalUser).FirstOrDefault();
+
             int userNumber = 1;
+            string displayName = "";
+            string displayName2 = "";
             foreach (User user in users)
             {
-                string displayName = (string)await user.GetPropertyAsync(KnownUserProperties.DisplayName);
+                displayName = (string)await user.GetPropertyAsync(KnownUserProperties.DisplayName);
 
                 // Choose a generic name if we do not have access to the actual name.
                 if (String.IsNullOrEmpty(displayName))
                 {
-                    displayName = "User #" + userNumber.ToString();
-                    userNumber++;
+                    string a = (string)await current.GetPropertyAsync(KnownUserProperties.FirstName);
+                    string b = (string)await current.GetPropertyAsync(KnownUserProperties.LastName);
+                    displayName2 = string.Format("{0} {1}", a, b);
+
+                    if (String.IsNullOrEmpty(displayName2))
+                    {
+                        displayName = "User #" + userNumber.ToString();
+                        userNumber++;
+                    }
+                    else
+                        displayName = displayName2;
                 }
-                currentUser = displayName;
+                System.Diagnostics.Debug.WriteLine("Displayname", displayName);
+                System.Diagnostics.Debug.WriteLine("Displayname2", displayName2);
             }
+            currentUser = displayName;
         }
 
         /// <summary>

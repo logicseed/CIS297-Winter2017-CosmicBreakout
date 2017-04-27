@@ -34,6 +34,7 @@ namespace CosmicBreakout
         public ObservableCollection<ScoreRecord> ScoreList = new ObservableCollection<ScoreRecord>();
         public void populateData()
         {
+            ((App)Application.Current).HighScoreData.datalist.OrderByDescending(a => a.Key);
             if (((App)Application.Current).HighScoreData.datalist.Count() > 1)
             {
                 int idx = 0;
