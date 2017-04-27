@@ -5,13 +5,13 @@
     xmlns:local="using:CosmicBreakout"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Width="1920" Height="1080"
+    mc:Ignorable="d" Width="960" Height="540"
     RequestedTheme="Dark">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="1920" Height="1080">
-        <Image HorizontalAlignment="Left" Height="1080" VerticalAlignment="Top" Width="1919" Source="Images/Background.png"/>
-        <Button x:Name="StartGame" Content="Start Game" HorizontalAlignment="Left" Margin="503,396,0,0" VerticalAlignment="Top" Height="74" Width="167" Click="StartGame_Click" Foreground="White" Background="#33B4B4B4" BorderBrush="#FFDC7E0C"/>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="960" Height="540">
+        <Image HorizontalAlignment="Left" Height="540" VerticalAlignment="Top" Width="960" Source="Images/Background.png"/>
         <Image HorizontalAlignment="Left" Margin="44,36,0,0" VerticalAlignment="Top" Source="Images/Logo.png" Height="263" Width="877"/>
+        <Button x:Name="StartGame" Content="Start Game" HorizontalAlignment="Left" Margin="503,396,0,0" VerticalAlignment="Top" Height="74" Width="167" Click="StartGame_Click" Foreground="White" Background="#33B4B4B4" BorderBrush="#FFDC7E0C"/>
        <Button x:Name="HighScores" Content="High Scores" HorizontalAlignment="Left" Margin="242,396,0,0" VerticalAlignment="Top" Height="74" Width="167" Click="HighScores_Click" Foreground="White" Background="#33B4B4B4" BorderBrush="#FFDC7E0C"/>
     </Grid>
 </Page>

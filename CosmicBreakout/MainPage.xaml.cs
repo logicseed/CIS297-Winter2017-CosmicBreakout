@@ -38,6 +38,7 @@ namespace CosmicBreakout
             this.InitializeComponent();
             ApplicationView view = ApplicationView.GetForCurrentView();
             view.TryEnterFullScreenMode();
+            //Windows.UI.ViewManagement.ApplicationViewScaling.TrySetDisableLayoutScaling(true);
         }
 
         private void StartGame_Click(object sender, RoutedEventArgs e)

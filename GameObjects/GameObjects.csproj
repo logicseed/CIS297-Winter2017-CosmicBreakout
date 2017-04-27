@@ -109,6 +109,8 @@
     <Compile Include="Ball.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="BlockType.cs" />
+    <Compile Include="Difficulty.cs" />
+    <Compile Include="HighScore.cs" />
     <Compile Include="ScoreData.cs" />
     <Compile Include="CollidableSprite.cs" />
     <Compile Include="CollisionLayer.cs" />

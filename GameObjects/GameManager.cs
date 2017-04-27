@@ -15,6 +15,8 @@ namespace GameObjects
         private CanvasBitmap spriteSheet;
         private Random random;
 
+
+
         public int score = 0;
         public bool gameOver = false;
         private int blockTicks = 0;
@@ -104,7 +106,15 @@ namespace GameObjects
 
         private void BuildBounds()
         {
-            screenBounds.Add(new CollidableSprite(this, new Rect(96, 1060, 1920, 16), CollisionLayer.Destroy));
+            // Top
+            screenBounds.Add(new CollidableSprite(this, new Rect(-120, -120, 2160, 100), CollisionLayer.Destroy));
+            // Bottom
+            screenBounds.Add(new CollidableSprite(this, new Rect(-120, 1200, 2160, 100), CollisionLayer.Destroy));
+            // Left
+            screenBounds.Add(new CollidableSprite(this, new Rect(-120, -120, 100, 1320), CollisionLayer.Destroy));
+            // Right
+            screenBounds.Add(new CollidableSprite(this, new Rect(1940, -120, 100, 1320), CollisionLayer.Destroy));
+
             blockBounds.Add(new CollidableSprite(this, new Rect(96, 800, 1920, 16), CollisionLayer.MaxBlocks));
         }
 

@@ -31,6 +31,7 @@ namespace CosmicBreakout
         public GamePage()
         {
             this.InitializeComponent();
+            //Windows.UI.ViewManagement.ApplicationViewScaling.TrySetDisableLayoutScaling(true);
             gameOverFlag = false;
         }
 
@@ -52,24 +53,24 @@ namespace CosmicBreakout
             gameManager = new GameManager(background, spriteSheet);
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            // Populate the list of users.
-            IReadOnlyList<User> users = await User.FindAllAsync();
-            int userNumber = 1;
-            foreach (User user in users)
-            {
-                string displayName = (string)await user.GetPropertyAsync(KnownUserProperties.DisplayName);
+        //protected override async void OnNavigatedTo(NavigationEventArgs e)
+        //{
+        //    // Populate the list of users.
+        //    IReadOnlyList<User> users = await User.FindAllAsync();
+        //    int userNumber = 1;
+        //    foreach (User user in users)
+        //    {
+        //        string displayName = (string)await user.GetPropertyAsync(KnownUserProperties.DisplayName);
 
-                // Choose a generic name if we do not have access to the actual name.
-                if (String.IsNullOrEmpty(displayName))
-                {
-                    displayName = "User #" + userNumber.ToString();
-                    userNumber++;
-                }
-                currentUser = displayName;
-            }
-        }
+        //        // Choose a generic name if we do not have access to the actual name.
+        //        if (String.IsNullOrEmpty(displayName))
+        //        {
+        //            displayName = "User #" + userNumber.ToString();
+        //            userNumber++;
+        //        }
+        //        currentUser = displayName;
+        //    }
+        //}
 
         /// <summary>
         /// Primary game logic loop. Called at a fixed interval.
@@ -85,8 +86,16 @@ namespace CosmicBreakout
                 switch (reading.Buttons)
                 {
                     case GamepadButtons.Menu:
-                        CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                        () => { Frame.Navigate(typeof(MainPage)); });
+                        gameManager.gameOver = true;
+                        break;
+                    case GamepadButtons.X:
+                        gameManager.MultiBall();
+                        break;
+                    case GamepadButtons.Y:
+                        gameManager.StackedPaddle();
+                        break;
+                    case GamepadButtons.B:
+                        gameManager.WidePaddle();
                         break;
                     default:
                         break;
@@ -100,21 +109,26 @@ namespace CosmicBreakout
             gameManager.Update();
             if (gameManager.gameOver)
             {
-                if (!gameOverFlag)
-                {
-                    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                           () => { ((App)Application.Current).HighScoreData.datalist.Add(new KeyValuePair<int,string>(gameManager.score, currentUser)); });
-                }
-                gameOverFlag = true;
+                //if (!gameOverFlag)
+                //{
+                //    CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                //           () => { ((App)Application.Current).HighScoreData.datalist.Add(new KeyValuePair<int,string>(gameManager.score, currentUser)); });
+                //}
+                //gameOverFlag = true;
                 
 
                 CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                       () => { Frame.Navigate(typeof(MainPage)); });
+                       () => { Frame.Navigate(typeof(GameOverPage), gameManager.score); });
             }
 
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 ScoreBox.Text = gameManager.score.ToString();
+            });
+
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                BallsBox.Text = gameManager.Balls.Count.ToString();
             });
         }
 
