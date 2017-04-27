@@ -32,7 +32,7 @@ namespace CosmicBreakout
         {
             this.InitializeComponent();
             //Windows.UI.ViewManagement.ApplicationViewScaling.TrySetDisableLayoutScaling(true);
-            gameOverFlag = false;
+            //gameOverFlag = false;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace CosmicBreakout
         /// <summary>
         /// Primary game logic loop. Called at a fixed interval.
         /// </summary>
-        private void GameCanvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
+        private async void GameCanvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
             if (gamepad == null && Gamepad.Gamepads.Count > 0) gamepad = Gamepad.Gamepads[0];
 
@@ -117,23 +117,23 @@ namespace CosmicBreakout
                 //gameOverFlag = true;
                 
 
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                        () => { Frame.Navigate(typeof(GameOverPage), gameManager.score); });
             }
 
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 ScoreBox.Text = gameManager.score.ToString();
             });
 
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 BallsBox.Text = gameManager.Balls.Count.ToString();
             });
         }
 
-        private bool gameOverFlag;
-        public string currentUser;
+        //private bool gameOverFlag;
+        //public string currentUser;
 
         /// <summary>
         /// Primary graphics loop. Called 60 times per second.

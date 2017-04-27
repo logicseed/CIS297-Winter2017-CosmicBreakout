@@ -45,7 +45,7 @@ namespace CosmicBreakout
             ScoreText.Text = score.ToString();
         }
 
-        private void GamePadInput_Update(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedUpdateEventArgs args)
+        private async void GamePadInput_Update(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedUpdateEventArgs args)
         {
             if (gamepad == null && Gamepad.Gamepads.Count > 0) gamepad = Gamepad.Gamepads[0];
 
@@ -73,7 +73,7 @@ namespace CosmicBreakout
                     case GamepadButtons.Paddle4:
                     case GamepadButtons.RightShoulder:
                     case GamepadButtons.RightThumbstick:
-                        CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                         () => { Frame.Navigate(typeof(MainPage)); });
                         break;
                     default:

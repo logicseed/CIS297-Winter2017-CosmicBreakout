@@ -14,7 +14,9 @@ namespace GameObjects
     {
         private bool hasExploded;
 
-        private const float BLOW_RADIUS = 200.0f;
+        private const float BLOW_RADIUS = 100.0f;
+        private bool isExploding;
+
         public Ball(GameManager gameManager, float maximumSpeed)
             : base(gameManager, new Rect(GameSprite.BallLocation, GameSprite.BallSize), CollisionLayer.Ball, maximumSpeed)
         {
@@ -94,6 +96,7 @@ namespace GameObjects
 
                     if (sprite.CollisionLayer == CollisionLayer.Block)
                     {
+                        if (isExploding) Explode();
                         (sprite as Block).Hit();
                     }
 
@@ -133,7 +136,8 @@ namespace GameObjects
 
         public void Explode()
         {
-            hasExploded = true;
+            isExploding = true;
+            hasExploded = false;
             foreach (var block in gameManager.Blocks)
             {
                 var collisionBounds = new Rect(
@@ -147,6 +151,8 @@ namespace GameObjects
                 {
                     if (block.CollisionLayer == CollisionLayer.Block)
                     {
+                        hasExploded = true;
+                        isExploding = false;
                         block.DestroyMe = true;
                     }
                 }

@@ -11,10 +11,10 @@
 
     <Grid Background="Black">
         <canvas:CanvasAnimatedControl x:Name="GameCanvas" ClearColor="Black" Draw="GameCanvas_Draw" CreateResources="GameCanvas_CreateResources" Width="1920" Height="1080" Update="GameCanvas_Update" IsFixedTimeStep="True"/>
-        <TextBlock Text="Score: " HorizontalAlignment="Left" Margin="50,15,0,0" VerticalAlignment="Top" Height="37" Width="66" FontSize="24" Foreground="White"/>
-        <TextBlock x:Name="ScoreBox" HorizontalAlignment="Left" Margin="121,15,0,0" VerticalAlignment="Top" Height="37" Width="133" FontSize="24" Foreground="White"/>
-        <TextBlock Text="Balls:" HorizontalAlignment="Left" Margin="282,15,0,0" VerticalAlignment="Top" Height="37" Width="54" FontSize="24" Foreground="White"/>
-        <TextBlock x:Name="BallsBox" HorizontalAlignment="Left" Margin="341,15,0,0" VerticalAlignment="Top" Height="37" Width="127" FontSize="24" Foreground="White"/>
+        <TextBlock Text="Score: " HorizontalAlignment="Left" Margin="90,49,0,0" VerticalAlignment="Top" Height="37" Width="66" FontSize="24" Foreground="White"/>
+        <TextBlock x:Name="ScoreBox" HorizontalAlignment="Left" Margin="159,49,0,0" VerticalAlignment="Top" Height="37" Width="100" FontSize="24" Foreground="White"/>
+        <TextBlock Text="Balls:" HorizontalAlignment="Left" Margin="282,49,0,0" VerticalAlignment="Top" Height="37" Width="54" FontSize="24" Foreground="White"/>
+        <TextBlock x:Name="BallsBox" HorizontalAlignment="Left" Margin="339,49,0,0" VerticalAlignment="Top" Height="37" Width="100" FontSize="24" Foreground="White"/>
 
     </Grid>
 </Page>

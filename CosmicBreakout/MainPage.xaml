@@ -20,14 +20,17 @@
         <TextBlock HorizontalAlignment="Left" Margin="179,360,0,0" TextWrapping="Wrap" Text="1 Hit to Destroy" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="179,390,0,0" TextWrapping="Wrap" Text="2 Hits to Destroy" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="179,420,0,0" TextWrapping="Wrap" Text="3 Hits to Destroy" VerticalAlignment="Top"/>
-        <Image HorizontalAlignment="Left" Height="16" Margin="349,362,0,0" VerticalAlignment="Top" Width="48" Stretch="None" Source="Images/PowerupWidePaddle.png"/>
-        <Image HorizontalAlignment="Left" Height="16" Margin="349,392,0,0" VerticalAlignment="Top" Width="48" Stretch="None" Source="Images/PowerupStackPaddle.png"/>
-        <Image HorizontalAlignment="Left" Height="16" Margin="349,422,0,0" VerticalAlignment="Top" Width="48" Stretch="None" Source="Images/PowerupMultiBall.png"/>
-        <TextBlock HorizontalAlignment="Left" Margin="402,360,0,0" TextWrapping="Wrap" Text="Wide Paddle" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="402,390,0,0" TextWrapping="Wrap" Text="Stack Paddle" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="402,420,0,0" TextWrapping="Wrap" Text="Multi-Ball" VerticalAlignment="Top"/>
+        <Image HorizontalAlignment="Left" Height="16" Margin="365,362,0,0" VerticalAlignment="Top" Width="48" Stretch="None" Source="Images/PowerupWidePaddle.png"/>
+        <Image HorizontalAlignment="Left" Height="16" Margin="365,392,0,0" VerticalAlignment="Top" Width="48" Stretch="None" Source="Images/PowerupStackPaddle.png"/>
+        <Image HorizontalAlignment="Left" Height="16" Margin="365,422,0,0" VerticalAlignment="Top" Width="48" Stretch="None" Source="Images/PowerupMultiBall.png"/>
+        <TextBlock HorizontalAlignment="Left" Margin="418,360,0,0" TextWrapping="Wrap" Text="Wide Paddle" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="418,390,0,0" TextWrapping="Wrap" Text="Stack Paddle" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="418,420,0,0" TextWrapping="Wrap" Text="Multi-Ball" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="126,331,0,0" TextWrapping="Wrap" Text="H E L P" VerticalAlignment="Top" FontWeight="Bold" FontSize="18"/>
         <TextBlock HorizontalAlignment="Left" Margin="606,387,0,0" TextWrapping="Wrap" Text="Marc King, Rodney Lewis, Spencer Harrison, Holly Miller" VerticalAlignment="Top" FontSize="18" Width="252"/>
         <TextBlock HorizontalAlignment="Left" Margin="606,353,0,0" TextWrapping="Wrap" Text="CIS297 - Winter 2017" VerticalAlignment="Top" FontSize="18" Width="252"/>
+        <Image HorizontalAlignment="Left" Height="16" Margin="365,452,0,0" VerticalAlignment="Top" Width="48" Stretch="None" Source="Images/PowerupExplode.png"/>
+        <TextBlock HorizontalAlignment="Left" Margin="418,450,0,0" TextWrapping="Wrap" Text="Explode" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="125,450,0,0" TextWrapping="Wrap" Text="Dont let the blocks get too low!" VerticalAlignment="Top"/>
     </Grid>
 </Page>

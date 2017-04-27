@@ -123,6 +123,7 @@
     <Content Include="Images\BlockTriple.png" />
     <Content Include="Images\Logo.png" />
     <Content Include="Images\Paddle.png" />
+    <Content Include="Images\PowerupExplode.png" />
     <Content Include="Images\PowerupMultiBall.png" />
     <Content Include="Images\PowerupStackPaddle.png" />
     <Content Include="Images\PowerupWidePaddle.png" />

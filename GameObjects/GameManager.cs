@@ -25,7 +25,7 @@ namespace GameObjects
         private bool isPaddleWide = false;
         private bool isPaddleStacked = false;
 
-        private const int MAX_BLOCK_TICKS = 900;
+        private const int MAX_BLOCK_TICKS = 1100;
         private const int RANDOM_SEED = 23;
         private const float BALL_SPEED = 6f;
         private const float PADDLE_SPEED = 10f;
@@ -220,19 +220,30 @@ namespace GameObjects
 
         private void DestroyGameObjects<T>(List<T> gameObjects) where T : Sprite
         {
+            //for (int i = 0; i < gameObjects.Count; i++)
+            //{
+            //    gameObjects.RemoveAt(i);
+            //}
+
             var thisLock = new Object();
             lock (thisLock)
             {
-                var indexesToDelete = new List<int>();
-                foreach (var gameObject in gameObjects)
+                for (int i = 0; i < gameObjects.Count; i++)
                 {
-                    if (gameObject.DestroyMe) indexesToDelete.Add(gameObjects.IndexOf(gameObject));
+                    if (gameObjects[i].DestroyMe) gameObjects.RemoveAt(i);
                 }
 
-                foreach (var index in indexesToDelete)
-                {
-                    if (index < gameObjects.Count) gameObjects.RemoveAt(index);
-                }
+                //var indexesToDelete = new List<int>();
+                //var objectsToDelete = new List<T>();
+                //foreach (var gameObject in gameObjects)
+                //{
+                //    if (gameObject.DestroyMe) indexesToDelete.Add(gameObjects.IndexOf(gameObject));
+                //}
+
+                //foreach (var index in indexesToDelete)
+                //{
+                //    if (index < gameObjects.Count) gameObjects.RemoveAt(index);
+                //}
             }
         }
 
