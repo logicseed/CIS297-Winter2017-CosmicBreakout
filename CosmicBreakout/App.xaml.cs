@@ -29,7 +29,7 @@ namespace CosmicBreakout
         public App()
         {
             this.InitializeComponent();
-            this.RequiresPointerMode = Windows.UI.Xaml.ApplicationRequiresPointerMode.WhenRequested;
+            //this.RequiresPointerMode = Windows.UI.Xaml.ApplicationRequiresPointerMode.WhenRequested;
             this.Suspending += OnSuspending;
 
             HighScoreData = new ScoreData();

@@ -9,7 +9,7 @@
     mc:Ignorable="d" Width="1920" Height="1080"
     RequestedTheme="Dark">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="960" Height="540" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="960" Height="540" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Image HorizontalAlignment="Left" Height="540" VerticalAlignment="Top" Width="960" Source="Images/Background.png"/>
         <Image HorizontalAlignment="Left" Margin="44,36,0,0" VerticalAlignment="Top" Source="Images/Logo.png" Height="263" Width="877"/>
         <TextBlock Margin="10,510,10,0" TextWrapping="Wrap" Text="PRESS ANY BUTTON TO BEGIN" VerticalAlignment="Top" Foreground="#FF818181" TextAlignment="Center"/>

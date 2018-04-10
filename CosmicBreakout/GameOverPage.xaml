@@ -9,7 +9,7 @@
     mc:Ignorable="d" Width="1920" Height="1080"
     RequestedTheme="Dark">
 
-    <Grid Width="960" Height="540" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <Grid Width="960" Height="540" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Image HorizontalAlignment="Left" Height="540" VerticalAlignment="Top" Width="960" Source="Images/Background.png"/>
         <Image HorizontalAlignment="Left" Height="122" Margin="10,10,0,0" VerticalAlignment="Top" Width="377" Source="Images/Logo.png"/>
         <TextBlock HorizontalAlignment="Center" Margin="10,137,10,0" TextWrapping="Wrap" Text="GAME OVER" VerticalAlignment="Top" FontSize="72" FontWeight="Bold" Foreground="#FF951E1E" Height="81" Width="940" TextAlignment="Center"/>

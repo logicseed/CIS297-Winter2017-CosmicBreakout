@@ -31,7 +31,7 @@ namespace CosmicBreakout
         public GamePage()
         {
             this.InitializeComponent();
-            //Windows.UI.ViewManagement.ApplicationViewScaling.TrySetDisableLayoutScaling(true);
+            Windows.UI.ViewManagement.ApplicationViewScaling.TrySetDisableLayoutScaling(true);
             //gameOverFlag = false;
         }
 
