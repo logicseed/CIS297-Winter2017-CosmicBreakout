@@ -1,3 +1,8 @@
+:warning: | __The content of this repository is explicitly NOT LICENSED for use, modification, or sharing. Per GitHub's terms of service it may only be viewed. See [No License] for more information.__ | :warning:
+--------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------
+
+[No License]: https://choosealicense.com/no-permission/
+
 Introduction to C# - CIS297 Winter 2017
 ======
 >As the final project for this course, our team was tasked with creating a version of the classic
