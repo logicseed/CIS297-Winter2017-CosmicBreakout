@@ -42,7 +42,7 @@ __Timeline:__ 2 weeks
 [![GameOver](Screenshots/GameOver.png?raw=true "GameOver")](Screenshots/GameOver.png?raw=true)
 
 *To test the efficiency of my collision and movement algorithms, a developer button was created that would
-spawn balls for as long as it was held down. The algorithms were able to support more than 3000 balls
+spawn balls for as long as it was held down. The algorithms were able to support more than 3,000 balls
 on the screen before they were leaving the play area as fast as they could be spawned, and no framerate
 drops or stuttering were observed.*
 
